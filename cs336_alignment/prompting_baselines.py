@@ -27,7 +27,10 @@ class Task:
         self.reward = rewards["reward"]
 
     def __str__(self) -> str:
-        return f"Task[{self.prompt_template.format(**self.prompt_params)[:50]} -> {self.answer[:50]}] -> Response: {self.response.text[:50]} -> Format: {self.format_reward}, Answer: {self.answer_reward}, Total: {self.reward}"
+        return f"Task[{self.prompt_template.format(**self.prompt_params)} -> {self.answer}] \n\t-> Response: {self.response.text+'\n' if self.response else None} \n\tGrade: format={self.format_reward}, answer={self.answer_reward}, total={self.reward}"
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 server = vllm_utils.VLLMServer("allenai/OLMo-2-0425-1B", gpu=0)
 sample_param = {
@@ -73,8 +76,37 @@ with open("data/gsm8k/test.jsonl", "r") as f:
         ))
 
 server.start()
-vllm_out: list[VLLMCompletion] = server.generate_completions([task.format_prompt() for task in tasks[:10]], sample_param)
+vllm_out: list[VLLMCompletion] = server.generate_completions([task.format_prompt() for task in tasks[:]], sample_param)
+server.stop()
+
 for i in range(len(vllm_out)):
     tasks[i].grade_response(vllm_out[i])
-    print(tasks[i])
-server.stop()
+    # print(tasks[i])
+
+# Accounting
+fcac = [task for task in tasks if task.format_reward == 1 and task.answer_reward == 1]
+fcai = [task for task in tasks if task.format_reward == 1 and task.answer_reward == 0]
+fiac = [task for task in tasks if task.format_reward == 0 and task.answer_reward == 1]
+fiai = [task for task in tasks if task.format_reward == 0 and task.answer_reward == 0]
+print(f"FCAC={len(fcac)}, FCAI={len(fcai)}, FIAC={len(fiac)}, FIAI={len(fiai)}")
+
+print(f"Question only fully correct: {len([task for task in fcac if task.prompt_template == question_only_template])}")
+print(f"Question only format correct: {len([task for task in fcai if task.prompt_template == question_only_template])}")
+print(f"Question only answer correct: {len([task for task in fiac if task.prompt_template == question_only_template])}")
+print(f"Question only incorrect: {len([task for task in fiai if task.prompt_template == question_only_template])}")
+
+print(f"R1 zero fully correct: {len([task for task in fcac if task.prompt_template == r1_zero_template])}")
+print(f"R1 zero format correct: {len([task for task in fcai if task.prompt_template == r1_zero_template])}")
+print(f"R1 zero answer correct: {len([task for task in fiac if task.prompt_template == r1_zero_template])}")
+print(f"R1 zero incorrect: {len([task for task in fiai if task.prompt_template == r1_zero_template])}")
+
+print(f"R1 zero three shot GSM8K fully correct: {len([task for task in fcac if task.prompt_template == r1_zero_three_shot_gsm8k_template])}")
+print(f"R1 zero three shot GSM8K format correct: {len([task for task in fcai if task.prompt_template == r1_zero_three_shot_gsm8k_template])}")
+print(f"R1 zero three shot GSM8K answer correct: {len([task for task in fiac if task.prompt_template == r1_zero_three_shot_gsm8k_template])}")
+print(f"R1 zero three shot GSM8K incorrect: {len([task for task in fiai if task.prompt_template == r1_zero_three_shot_gsm8k_template])}")
+
+with open("tasks.txt", "w") as f:
+    f.write(f"Correct format \n\n\n {"\n".join([str(task) for task in fcai[:10]])}\n")
+    f.write(f"Fully incorrect tasks \n\n\n {"\n".join([str(task) for task in fiai[:10]])}\n")
+
+    f.write(f"All tasks: {"\n".join([str(task) for task in tasks])}")
