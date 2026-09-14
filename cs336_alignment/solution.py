@@ -15,14 +15,14 @@ def tokenize_prompt_and_output(
 
     for i, prompt in enumerate(prompt_strs):
         response = output_strs[i]
-        prompt_ids = tokenizer.encode(prompt)
-        response_ids = tokenizer.encode(response)
+        prompt_ids = tokenizer.encode(prompt, add_special_tokens=False)
+        response_ids = tokenizer.encode(response, add_special_tokens=False)
         full_sequences.append(torch.tensor(prompt_ids + response_ids))
         response_start.append(len(prompt_ids) - 1) # -1 for switching into the labels coordinate system
         response_end.append(len(prompt_ids) + len(response_ids) - 1)
 
     out = {}
-    padded = pad_sequence(full_sequences, batch_first=True, padding_value=tokenizer.pad_token_type_id)
+    padded = pad_sequence(full_sequences, batch_first=True, padding_value=tokenizer.pad_token_id)
     out['input_ids'] = padded[:, :-1]
     out['labels'] = padded[:, 1:]
     positions = torch.arange(out['labels'].shape[-1])
