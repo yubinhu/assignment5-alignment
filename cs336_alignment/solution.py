@@ -1,7 +1,8 @@
-from transformers import PreTrainedTokenizer
+from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from einops import rearrange
+from transformers.modeling_outputs import CausalLMOutputWithCrossAttentions
 
 def tokenize_prompt_and_output(
     prompt_strs: list[str],
@@ -34,3 +35,22 @@ def tokenize_prompt_and_output(
     out['response_mask'] = response_mask
 
     return out
+
+def get_response_log_probs(
+    model: PreTrainedModel,
+    input_ids: torch.Tensor,
+    labels: torch.Tensor,
+    return_token_entropy: bool = False,
+) -> dict[str, torch.Tensor]:
+    model_output: CausalLMOutputWithCrossAttentions = model(input_ids)
+    result: dict[str, torch.Tensor] = {}
+
+    log_prob = torch.log_softmax(model_output.logits, dim=-1)
+    result["log_probs"] = log_prob.gather(-1, labels[:, :, None]).squeeze(-1)
+
+    if return_token_entropy:
+        # calculate token entropy
+        entropy = torch.distributions.Categorical(logits=model_output.logits).entropy()
+        result["token_entropy"] = entropy
+
+    return result
