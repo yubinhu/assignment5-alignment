@@ -1,3 +1,5 @@
+from typing import Callable
+
 from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
 from torch.nn.utils.rnn import pad_sequence
@@ -54,3 +56,17 @@ def get_response_log_probs(
         result["token_entropy"] = entropy
 
     return result
+
+def compute_rollout_rewards(
+        reward_fn: Callable[[str, str], dict[str, float]],
+        rollout_responses: list[str],
+        repeated_ground_truths: list[str],
+) -> tuple[torch.Tensor, dict[str, float]]:
+    reward_dicts = [reward_fn(resp, truth) for resp, truth in zip(rollout_responses, repeated_ground_truths)]
+    rewards = [reward['reward'] for reward in reward_dicts]
+    meta = {}
+    meta['avg_format_rewards'] = sum([reward['format_reward'] for reward in reward_dicts]) / len(reward_dicts)
+    meta['avg_answer_rewards'] = sum([reward['answer_reward'] for reward in reward_dicts]) / len(reward_dicts)
+    meta['avg_rewards'] = sum(rewards) / len(rewards)
+    rewards = torch.tensor(rewards)
+    return rewards, meta
