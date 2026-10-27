@@ -165,7 +165,15 @@ def run_compute_group_normalized_rewards(
                 your choice of other statistics to log (e.g. mean, std, max/min
                 of rewards).
     """
-    raise NotImplementedError
+    from cs336_alignment.solution import compute_group_normalized_rewards
+
+    return compute_group_normalized_rewards(
+        raw_rewards=raw_rewards,
+        group_size=group_size,
+        baseline=baseline,
+        advantage_eps=advantage_eps,
+        advantage_normalizer=advantage_normalizer,
+    )
 
 
 def run_compute_policy_gradient_loss(

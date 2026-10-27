@@ -1,7 +1,9 @@
-from typing import Callable
+from typing import Callable, Literal
+from jaxtyping import Float, Int
 
 from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
+from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 from einops import rearrange
 from transformers.modeling_outputs import CausalLMOutputWithCrossAttentions
@@ -70,3 +72,34 @@ def compute_rollout_rewards(
     meta['avg_rewards'] = sum(rewards) / len(rewards)
     rewards = torch.tensor(rewards)
     return rewards, meta
+
+def compute_group_normalized_rewards(
+    raw_rewards: Float[Tensor, "rollout_batch_size"],
+    group_size: int,
+    baseline: Literal["mean", "none"] = "mean",
+    advantage_eps: float = 1e-6,
+    advantage_normalizer: Literal["std", "none", "mean"] = "std",
+) -> tuple[Float[Tensor, "rollout_batch_size"], dict[str, float]]:
+
+    rewards = rearrange(raw_rewards, '(prompt_num group_size) -> prompt_num group_size', group_size=group_size)
+    
+    if baseline == "mean":
+        base = torch.mean(rewards, dim=1)
+    else:
+        raise NotImplementedError
+
+    if advantage_normalizer == "std":
+        norm = torch.std(rewards, dim=1) + advantage_eps
+    else:
+        raise NotImplementedError
+
+    advantages = (rewards - base) / norm
+    advantages = rearrange(advantages, 'prompt_num group_size -> (prompt_num group_size)')
+
+    metadata = {
+        "mean": torch.mean(raw_rewards).item(),
+        "std": torch.std(raw_rewards).item(),
+    }
+
+    return advantages, metadata
+    
