@@ -102,4 +102,16 @@ def compute_group_normalized_rewards(
     }
 
     return advantages, metadata
-    
+
+def compute_policy_gradient_loss(
+    raw_rewards_or_advantages: Float[Tensor, "batch_size ..."],
+    policy_log_probs: Float[Tensor, "batch_size seq_len"],
+    importance_reweighting_method: Literal["none", "noclip", "grpo", "gspo"] = "none",
+    old_log_probs: Float[Tensor, "batch_size seq_len"] | None = None,
+    cliprange: float | None = None,
+    response_mask: Float[Tensor, "batch_size seq_len"] | None = None,
+) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+    group_normalized_rewards = compute_group_normalized_rewards(
+        raw_rewards=raw_rewards_or_advantages,
+        
+        )
