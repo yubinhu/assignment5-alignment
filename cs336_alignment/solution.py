@@ -1,6 +1,7 @@
 from typing import Callable, Literal
 from jaxtyping import Float, Int, Bool
 
+from torch.optim import Optimizer
 from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
 from torch import Tensor
@@ -140,3 +141,34 @@ def aggregate_loss_across_microbatch(
         raise NotImplementedError
 
     return loss
+
+def grpo_train_step(
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
+    optimizer: Optimizer,
+    gradient_accumulation_steps: int,
+    max_grad_norm: float | None,
+    reward_fn: Callable[[str, str], dict[str, float]],
+    repeated_prompts: list[str],
+    rollout_responses: list[str],
+    repeated_ground_truths: list[str],
+    group_size: int,
+    # Reward normalization
+    baseline: Literal["mean", "none"] = "mean",
+    advantage_eps: float = 1e-6,
+    advantage_normalizer: Literal["std", "none", "mean"] = "std",
+    # Importance reweighting and clipping
+    importance_reweighting_method: Literal["none", "noclip", "grpo", "gspo"] = "none",
+    old_log_probs: Tensor | None = None,
+    cliprange: float | None = None,
+    # Loss normalization
+    loss_normalization: Literal["sequence", "constant"] = "sequence",
+    normalization_constant: int | None = None,
+) -> tuple[Tensor, dict[str, Tensor | float]]:
+    microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
+    for i in range(gradient_accumulation_steps):
+        inputs_microbatch = repeated_prompts[i*microbatch_size:i*(microbatch_size+1)]
+        labels_microbatch = repeated_ground_truths[i*microbatch_size:i*(microbatch_size+1)]
+
+        logits = model(inputs_microbatch)
+        rewards = 
