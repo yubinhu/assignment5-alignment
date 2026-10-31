@@ -115,6 +115,8 @@ def compute_policy_gradient_loss(
     metadata = {}
     per_token_policy_gradient_loss = None
 
+    raw_rewards_or_advantages = rearrange(raw_rewards_or_advantages, "batch_size ... -> batch_size (...)")
+
     if importance_reweighting_method == "none":
         per_token_policy_gradient_loss = - raw_rewards_or_advantages * policy_log_probs
     else:
