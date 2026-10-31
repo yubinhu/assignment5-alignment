@@ -1,5 +1,5 @@
 from typing import Callable, Literal
-from jaxtyping import Float, Int
+from jaxtyping import Float, Int, Bool
 
 from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
@@ -121,3 +121,20 @@ def compute_policy_gradient_loss(
         raise NotImplementedError
 
     return per_token_policy_gradient_loss, metadata
+
+def aggregate_loss_across_microbatch(
+    per_token_policy_gradient_loss: Float[Tensor, "batch_size seq_len"],
+    mask: Bool[Tensor, "batch_size seq_len"],
+    loss_normalization: Literal["sequence", "constant"] = "sequence",
+    normalization_constant: int | None = None,
+) -> Tensor:
+    loss = None
+
+    if loss_normalization == "sequence":
+        masked = per_token_policy_gradient_loss.masked_fill(~mask, 0)
+        seq_avg_loss = masked.sum(dim=1) / mask.sum(dim=1)
+        loss = seq_avg_loss.mean()
+    else:
+        raise NotImplementedError
+
+    return loss
