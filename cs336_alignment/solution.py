@@ -111,7 +111,13 @@ def compute_policy_gradient_loss(
     cliprange: float | None = None,
     response_mask: Float[Tensor, "batch_size seq_len"] | None = None,
 ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
-    group_normalized_rewards = compute_group_normalized_rewards(
-        raw_rewards=raw_rewards_or_advantages,
-        
-        )
+
+    metadata = {}
+    per_token_policy_gradient_loss = None
+
+    if importance_reweighting_method == "none":
+        per_token_policy_gradient_loss = - raw_rewards_or_advantages * policy_log_probs
+    else:
+        raise NotImplementedError
+
+    return per_token_policy_gradient_loss, metadata
