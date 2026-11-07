@@ -182,13 +182,27 @@ def grpo_train_step(
         log_probs_output = get_response_log_probs(model, tokenization_output['input_ids'], tokenization_output['labels'])
         
         raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
-        advantages, cgnr_meta = compute_group_normalized_rewards(raw_rewards, group_size, advantage_eps=advantage_eps)
-        per_token_pg_loss, cpgl_meta = compute_policy_gradient_loss(advantages, log_probs_output['log_probs'])
+        advantages, cgnr_meta = compute_group_normalized_rewards(
+            raw_rewards, group_size,
+            baseline=baseline,
+            advantage_eps=advantage_eps,
+            advantage_normalizer=advantage_normalizer,
+        )
+        per_token_pg_loss, cpgl_meta = compute_policy_gradient_loss(
+            advantages, log_probs_output['log_probs'],
+            importance_reweighting_method=importance_reweighting_method,
+            cliprange=cliprange,
+            response_mask=tokenization_output['response_mask'],
+        )
         # Average microbatch statistics, including each microbatch's raw_reward_std.
         for metrics in (crr_meta, cgnr_meta, cpgl_meta):
             for key, value in metrics.items():
                 meta[key] = meta.get(key, 0.0) + value / gradient_accumulation_steps
-        microbatch_loss = aggregate_loss_across_microbatch(per_token_pg_loss, tokenization_output['response_mask'])
+        microbatch_loss = aggregate_loss_across_microbatch(
+            per_token_pg_loss, tokenization_output['response_mask'],
+            loss_normalization=loss_normalization,
+            normalization_constant=normalization_constant,
+        )
         # microbatch adjustement
         microbatch_loss *= (microbatch_size / len(repeated_prompts))
         microbatch_loss.backward()
