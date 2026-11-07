@@ -165,7 +165,12 @@ def grpo_train_step(
     loss_normalization: Literal["sequence", "constant"] = "sequence",
     normalization_constant: int | None = None,
 ) -> tuple[Tensor, dict[str, Tensor | float]]:
+    
     microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
+
+    if microbatch_size % group_size != 0 or len(repeated_prompts) != gradient_accumulation_steps * microbatch_size:
+        raise ValueError("Dimension mismatch between group_size, gradient_steps, and inputs")
+
     loss = Tensor([0])
     meta = {}
     for i in range(gradient_accumulation_steps):
