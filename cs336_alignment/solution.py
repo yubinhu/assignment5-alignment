@@ -167,8 +167,13 @@ def grpo_train_step(
 ) -> tuple[Tensor, dict[str, Tensor | float]]:
     microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
     for i in range(gradient_accumulation_steps):
-        inputs_microbatch = repeated_prompts[i*microbatch_size:i*(microbatch_size+1)]
-        labels_microbatch = repeated_ground_truths[i*microbatch_size:i*(microbatch_size+1)]
+        inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
+        responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
+        labels_microbatch = repeated_ground_truths[i*microbatch_size:i*microbatch_size+microbatch_size]
 
+        recompute_microbatch = [inputs_microbatch[j] + responses_microbatch[j] for j in range(len(inputs_microbatch))]
         logits = model(inputs_microbatch)
-        rewards = 
+
+        raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, labels_microbatch)
+        advantages, cgnr_meta = compute_group_normalized_rewards(raw_rewards, group_size, advantage_eps=advantage_eps)
+        per_token_pg_loss, meta = compute_policy_gradient_loss(advantages, )
