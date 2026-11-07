@@ -166,14 +166,27 @@ def grpo_train_step(
     normalization_constant: int | None = None,
 ) -> tuple[Tensor, dict[str, Tensor | float]]:
     microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
+    loss = Tensor([0])
+    meta = {}
     for i in range(gradient_accumulation_steps):
         inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
         responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
-        labels_microbatch = repeated_ground_truths[i*microbatch_size:i*microbatch_size+microbatch_size]
+        groundtruth_microbatch = repeated_ground_truths[i*microbatch_size:i*microbatch_size+microbatch_size]
 
-        recompute_microbatch = [inputs_microbatch[j] + responses_microbatch[j] for j in range(len(inputs_microbatch))]
-        logits = model(inputs_microbatch)
-
-        raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, labels_microbatch)
+        tokenization_output = tokenize_prompt_and_output(inputs_microbatch, responses_microbatch, tokenizer)
+        log_probs_output = get_response_log_probs(model, tokenization_output['input_ids'], tokenization_output['labels'])
+        
+        raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
         advantages, cgnr_meta = compute_group_normalized_rewards(raw_rewards, group_size, advantage_eps=advantage_eps)
-        per_token_pg_loss, meta = compute_policy_gradient_loss(advantages, )
+        per_token_pg_loss, cpgl_meta = compute_policy_gradient_loss(advantages, log_probs_output['log_probs'])
+        microbatch_loss = aggregate_loss_across_microbatch(per_token_pg_loss, tokenization_output['response_mask'])
+        # microbatch adjustement
+        microbatch_loss *= (microbatch_size / len(repeated_prompts))
+        microbatch_loss.backward()
+        
+        loss += microbatch_loss
+    if max_grad_norm:
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = max_grad_norm)
+    optimizer.step()
+    optimizer.zero_grad()
+    return loss, meta
