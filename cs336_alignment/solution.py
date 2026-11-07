@@ -98,8 +98,8 @@ def compute_group_normalized_rewards(
     advantages = rearrange(advantages, 'prompt_num group_size -> (prompt_num group_size)')
 
     metadata = {
-        "mean": torch.mean(raw_rewards).item(),
-        "std": torch.std(raw_rewards).item(),
+        "raw_reward_mean": torch.mean(raw_rewards).item(),
+        "raw_reward_std": torch.std(raw_rewards).item(),
     }
 
     return advantages, metadata
@@ -184,6 +184,10 @@ def grpo_train_step(
         raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
         advantages, cgnr_meta = compute_group_normalized_rewards(raw_rewards, group_size, advantage_eps=advantage_eps)
         per_token_pg_loss, cpgl_meta = compute_policy_gradient_loss(advantages, log_probs_output['log_probs'])
+        # Average microbatch statistics, including each microbatch's raw_reward_std.
+        for metrics in (crr_meta, cgnr_meta, cpgl_meta):
+            for key, value in metrics.items():
+                meta[key] = meta.get(key, 0.0) + value / gradient_accumulation_steps
         microbatch_loss = aggregate_loss_across_microbatch(per_token_pg_loss, tokenization_output['response_mask'])
         # microbatch adjustement
         microbatch_loss *= (microbatch_size / len(repeated_prompts))
