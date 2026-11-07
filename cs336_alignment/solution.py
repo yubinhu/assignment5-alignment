@@ -85,12 +85,12 @@ def compute_group_normalized_rewards(
     rewards = rearrange(raw_rewards, '(prompt_num group_size) -> prompt_num group_size', group_size=group_size)
     
     if baseline == "mean":
-        base = torch.mean(rewards, dim=1)
+        base = torch.mean(rewards, dim=1, keepdim=True)
     else:
         raise NotImplementedError
 
     if advantage_normalizer == "std":
-        norm = torch.std(rewards, dim=1) + advantage_eps
+        norm = torch.std(rewards, dim=1, keepdim=True) + advantage_eps
     else:
         raise NotImplementedError
 
