@@ -192,7 +192,8 @@ def grpo_train_step(
     if microbatch_size % group_size != 0 or len(repeated_prompts) != gradient_accumulation_steps * microbatch_size:
         raise ValueError("Dimension mismatch between group_size, gradient_steps, and inputs")
 
-    loss = Tensor([0])
+    device = next(model.parameters()).device
+    loss = torch.zeros(1, device=device)
     meta = {}
     for i in range(gradient_accumulation_steps):
         inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
@@ -200,9 +201,13 @@ def grpo_train_step(
         groundtruth_microbatch = repeated_ground_truths[i*microbatch_size:i*microbatch_size+microbatch_size]
 
         tokenization_output = tokenize_prompt_and_output(inputs_microbatch, responses_microbatch, tokenizer)
+        # Tokenization creates CPU tensors; transfer the whole batch, including
+        # labels and masks, before combining it with model outputs.
+        tokenization_output = {key: value.to(device) for key, value in tokenization_output.items()}
         log_probs_output = get_response_log_probs(model, tokenization_output['input_ids'], tokenization_output['labels'])
         
         raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
+        raw_rewards = raw_rewards.to(device)
         advantages, cgnr_meta = compute_group_normalized_rewards(
             raw_rewards, group_size,
             baseline=baseline,
@@ -228,7 +233,8 @@ def grpo_train_step(
         microbatch_loss *= (microbatch_size / len(repeated_prompts))
         microbatch_loss.backward()
         
-        loss += microbatch_loss
+        # This accumulator is for reporting, not backpropagation.
+        loss += microbatch_loss.detach()
     if max_grad_norm:
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = max_grad_norm)
     optimizer.step()
