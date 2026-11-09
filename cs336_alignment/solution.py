@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+import json
+from pathlib import Path
 from typing import Callable, Literal
 from jaxtyping import Float, Int, Bool
 
@@ -8,6 +11,24 @@ from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 from einops import rearrange
 from transformers.modeling_outputs import CausalLMOutputWithCrossAttentions
+
+@dataclass
+class Task:
+    prompt_params: dict
+    prompt_template: str
+    answer: str
+
+    def format_prompt(self) -> str:
+        return self.prompt_template.format(**self.prompt_params)
+
+
+def load_gsm8k_examples(path: str | Path) -> list[tuple[str, str]]:
+    """Load (question, final answer) pairs using the baseline's answer extraction."""
+    with open(path) as f:
+        records = [json.loads(line) for line in f]
+    return [(record["question"], record["answer"].split("####")[-1].strip())
+            for record in records]
+
 
 def tokenize_prompt_and_output(
     prompt_strs: list[str],
