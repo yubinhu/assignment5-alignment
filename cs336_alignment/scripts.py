@@ -1,8 +1,8 @@
 from pathlib import Path
-from vllm_utils import VLLMCompletion, VLLMServer
-from checkpoint import get_model_and_tokenizer
+from cs336_alignment.vllm_utils import VLLMCompletion, VLLMServer
+from cs336_alignment.checkpoint import get_model_and_tokenizer
 from cs336_alignment.drgrpo_grader import r1_zero_reward_fn
-from solution import grpo_train_step, load_gsm8k_examples
+from cs336_alignment.solution import grpo_train_step, load_gsm8k_examples
 import torch
 import random
 
