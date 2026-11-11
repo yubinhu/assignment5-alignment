@@ -36,12 +36,17 @@ opitimizer = torch.optim.AdamW(
     policy.parameters(), lr=args.learning_rate, betas=(0.9, 0.95), weight_decay=0.0
 )
 server = VLLMServer(args.model_name, gpu=args.inference_gpu)
+run = wandb.init(
+    project="grpo_experiments_standard_on_policy",
+    config=vars(args),
+)
 
 
 
 # Load examples
 train_examples = load_gsm8k_examples(args.train_file_path)[:args.n_train_examples]
 valid_examples = load_gsm8k_examples(args.valid_file_path)[:args.n_test_examples]
+valid_prompts = [prompt.format(question=example[0]) for example in valid_examples]
 groups_per_batch = args.train_batch_size // args.group_size
 
 sample_param = {
@@ -59,6 +64,15 @@ try:
         # Sync weights
         server.sync_policy_weights(policy)
 
+        # Eval
+        if i % 10 == 0:
+            vllm_out: list[VLLMCompletion] = server.generate_completions(
+                valid_prompts, 
+                sample_param,
+                batch_size=args.train_batch_size
+            )
+            reward = 
+
         # Sample
         batch_examples = random.sample(train_examples, groups_per_batch)
         batch_prompts = [prompt.format(question=example[0]) for example in batch_examples]
@@ -72,8 +86,14 @@ try:
         )
 
         # Train
-        grpo_train_step(
-            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, r1_zero_reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size)
+        loss, meta = grpo_train_step(
+            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, r1_zero_reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
+        )
+        meta["loss"] = loss.item()
+        run.log(meta, step=i)
+        
+            
 finally:
     server.stop()
+    run.finish()
 
