@@ -9,6 +9,22 @@ import random
 import wandb
 import datetime
 
+
+def generation_table(step, prompts, responses, ground_truths):
+    """Build a fresh snapshot of generated text for inspection in W&B."""
+    table = wandb.Table(columns=[
+        "step", "prompt", "response", "ground_truth", "finish_reason",
+    ])
+    for prompt_text, response, ground_truth in zip(
+        prompts, responses, ground_truths, strict=True
+    ):
+        table.add_data(
+            step, prompt_text, response.text, ground_truth,
+            response.finish_reason,
+        )
+    return table
+
+
 # Parameters
 parser = argparse.ArgumentParser(
     description="Run the GRPO training experiment.",
@@ -111,6 +127,10 @@ try:
 
         meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
         meta["loss"] = loss.item()
+        if i % 40 == 0:
+            meta["generations"] = generation_table(
+                i, repeated_prompts[:16], vllm_out[:16], repeated_truths[:16]
+            )
         train_meta = {f"train/{key}": value for key, value in meta.items()}
         run.log(train_meta, step=i)
         
