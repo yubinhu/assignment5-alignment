@@ -233,7 +233,6 @@ def grpo_train_step(
         microbatch_loss *= (microbatch_size / len(repeated_prompts))
         microbatch_loss.backward()
         
-        # This accumulator is for reporting, not backpropagation.
         loss += microbatch_loss.detach()
     if max_grad_norm:
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = max_grad_norm)

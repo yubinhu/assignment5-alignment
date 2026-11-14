@@ -3,7 +3,7 @@ from pathlib import Path
 from cs336_alignment.vllm_utils import VLLMCompletion, VLLMServer
 from cs336_alignment.checkpoint import get_model_and_tokenizer
 from cs336_alignment.drgrpo_grader import r1_zero_reward_fn
-from cs336_alignment.solution import grpo_train_step, load_gsm8k_examples
+from cs336_alignment.solution import grpo_train_step, load_gsm8k_examples, compute_rollout_rewards
 import torch
 import random
 import wandb
@@ -47,6 +47,7 @@ run = wandb.init(
 train_examples = load_gsm8k_examples(args.train_file_path)[:args.n_train_examples]
 valid_examples = load_gsm8k_examples(args.valid_file_path)[:args.n_test_examples]
 valid_prompts = [prompt.format(question=example[0]) for example in valid_examples]
+valid_ground_truths = [example[1] for example in valid_examples]
 groups_per_batch = args.train_batch_size // args.group_size
 
 sample_param = {
@@ -56,11 +57,18 @@ sample_param = {
     "seed": 41
 }
 
+sample_param_validation = {
+    "temperature": 1.0,
+    "max_tokens": 512,
+    "n": 1,
+    "seed": 41
+}
+
 try:
     server.start()
     server.init_weight_sync(args.training_device)
 
-    for i in range(5):
+    for i in range(10):
         # Sync weights
         server.sync_policy_weights(policy)
 
@@ -68,10 +76,11 @@ try:
         if i % 10 == 0:
             vllm_out: list[VLLMCompletion] = server.generate_completions(
                 valid_prompts, 
-                sample_param,
+                sample_param_validation,
                 batch_size=args.train_batch_size
             )
-            reward = 
+            _, meta = compute_rollout_rewards(r1_zero_reward_fn, [completion.text for completion in vllm_out], valid_ground_truths)
+            run.log(meta, step=i)
 
         # Sample
         batch_examples = random.sample(train_examples, groups_per_batch)
