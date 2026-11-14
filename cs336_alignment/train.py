@@ -56,21 +56,25 @@ sample_param = {
     "temperature": 1.0,
     "max_tokens": 512,
     "n": args.group_size,
-    "seed": 41
+    "seed": 41,
+    "stop": ["</answer>"],
+    "include_stop_str_in_output": True,
 }
 
 sample_param_validation = {
     "temperature": 1.0,
     "max_tokens": 512,
     "n": 1,
-    "seed": 41
+    "seed": 41,
+    "stop": ["</answer>"],
+    "include_stop_str_in_output": True,
 }
 
 try:
     server.start()
     server.init_weight_sync(args.training_device)
 
-    for i in range(10):
+    for i in range(50):
         # Sync weights
         server.sync_policy_weights(policy)
 
@@ -84,6 +88,7 @@ try:
             _, meta = compute_rollout_rewards(r1_zero_reward_fn, [completion.text for completion in vllm_out], valid_ground_truths)
 
             meta["avg_resp_len"] = sum([len(response.token_ids) for response in vllm_out]) / len(vllm_out)
+            meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
             eval_meta = {f"eval/{key}": value for key, value in meta.items()}
             run.log(eval_meta, step=i)
 
@@ -103,6 +108,8 @@ try:
         loss, meta = grpo_train_step(
             policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, r1_zero_reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
         )
+
+        meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
         meta["loss"] = loss.item()
         train_meta = {f"train/{key}": value for key, value in meta.items()}
         run.log(train_meta, step=i)
