@@ -7,6 +7,7 @@ from cs336_alignment.solution import grpo_train_step, load_gsm8k_examples, compu
 import torch
 import random
 import wandb
+import datetime
 
 # Parameters
 parser = argparse.ArgumentParser(
@@ -39,6 +40,7 @@ server = VLLMServer(args.model_name, gpu=args.inference_gpu)
 run = wandb.init(
     project="grpo_experiments_standard_on_policy",
     config=vars(args),
+    name=f"test-{datetime.datetime.now():%Y%m%d-%H%M}"
 )
 
 
@@ -80,7 +82,10 @@ try:
                 batch_size=args.train_batch_size
             )
             _, meta = compute_rollout_rewards(r1_zero_reward_fn, [completion.text for completion in vllm_out], valid_ground_truths)
-            run.log(meta, step=i)
+
+            meta["avg_resp_len"] = sum([len(response.token_ids) for response in vllm_out]) / len(vllm_out)
+            eval_meta = {f"eval/{key}": value for key, value in meta.items()}
+            run.log(eval_meta, step=i)
 
         # Sample
         batch_examples = random.sample(train_examples, groups_per_batch)
@@ -99,7 +104,8 @@ try:
             policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, r1_zero_reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
         )
         meta["loss"] = loss.item()
-        run.log(meta, step=i)
+        train_meta = {f"train/{key}": value for key, value in meta.items()}
+        run.log(train_meta, step=i)
         
             
 finally:

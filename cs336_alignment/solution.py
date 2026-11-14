@@ -195,6 +195,8 @@ def grpo_train_step(
     device = next(model.parameters()).device
     loss = torch.zeros(1, device=device)
     meta = {}
+    response_entropy = 0
+    response_tokens = 0
     for i in range(gradient_accumulation_steps):
         inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
         responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
@@ -204,7 +206,12 @@ def grpo_train_step(
         # Tokenization creates CPU tensors; transfer the whole batch, including
         # labels and masks, before combining it with model outputs.
         tokenization_output = {key: value.to(device) for key, value in tokenization_output.items()}
-        log_probs_output = get_response_log_probs(model, tokenization_output['input_ids'], tokenization_output['labels'])
+        response_mask = tokenization_output['response_mask']
+        log_probs_output = get_response_log_probs(model, tokenization_output['input_ids'], tokenization_output['labels'], return_token_entropy=True)
+
+        # Entropy logging
+        response_entropy += (log_probs_output['token_entropy'] * response_mask).sum().detach()
+        response_tokens += response_mask.sum()
         
         raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
         raw_rewards = raw_rewards.to(device)
@@ -218,14 +225,14 @@ def grpo_train_step(
             advantages, log_probs_output['log_probs'],
             importance_reweighting_method=importance_reweighting_method,
             cliprange=cliprange,
-            response_mask=tokenization_output['response_mask'],
+            response_mask=response_mask,
         )
         # Average microbatch statistics, including each microbatch's raw_reward_std.
         for metrics in (crr_meta, cgnr_meta, cpgl_meta):
             for key, value in metrics.items():
                 meta[key] = meta.get(key, 0.0) + value / gradient_accumulation_steps
         microbatch_loss = aggregate_loss_across_microbatch(
-            per_token_pg_loss, tokenization_output['response_mask'],
+            per_token_pg_loss, response_mask,
             loss_normalization=loss_normalization,
             normalization_constant=normalization_constant,
         )
@@ -233,9 +240,13 @@ def grpo_train_step(
         microbatch_loss *= (microbatch_size / len(repeated_prompts))
         microbatch_loss.backward()
         
-        loss += microbatch_loss.detach()
+        loss += microbatch_loss.detach() # only for logging
+
     if max_grad_norm:
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = max_grad_norm)
+        meta['grad_norm'] = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = max_grad_norm).detach()
     optimizer.step()
     optimizer.zero_grad()
+
+    meta["avg_token_entropy"] = response_entropy / response_tokens if response_tokens else 0
+
     return loss, meta
