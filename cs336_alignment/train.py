@@ -43,6 +43,7 @@ parser.add_argument("--n-train-examples", type=int, default=6400)
 parser.add_argument("--n-test-examples", type=int, default=1024)
 parser.add_argument("--train-batch-size", type=int, default=256)
 parser.add_argument("--group-size", type=int, default=8)
+parser.add_argument("--run-name", default=f"test-{datetime.datetime.now():%Y%m%d-%H%M}")
 args = parser.parse_args()
 # Pass vars(args) as the config when initializing a W&B run.
 prompt = Path(args.prompt_path).read_text()
@@ -56,7 +57,7 @@ server = VLLMServer(args.model_name, gpu=args.inference_gpu)
 run = wandb.init(
     project="grpo_experiments_standard_on_policy",
     config=vars(args),
-    name=f"test-{datetime.datetime.now():%Y%m%d-%H%M}"
+    name=args.run_name,
 )
 
 
