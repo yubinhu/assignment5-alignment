@@ -44,12 +44,16 @@ parser.add_argument("--n-train-examples", type=int, default=6400)
 parser.add_argument("--n-test-examples", type=int, default=1024)
 parser.add_argument("--train-batch-size", type=int, default=256)
 parser.add_argument("--group-size", type=int, default=8)
-parser.add_argument("--run-name", default=f"test-{datetime.datetime.now(ZoneInfo("America/Los_Angeles")):%Y%m%d-%H%M}")
+parser.add_argument("--run-name", default=f"exp-{datetime.datetime.now
+(ZoneInfo("America/Los_Angeles")):%Y%m%d-%H%M}")
+parser.add_argument("--steps", type=int, default=200)
+parser.add_argument("--seed", type=int, default=random.randint(0, 10000))
 args = parser.parse_args()
 # Pass vars(args) as the config when initializing a W&B run.
 prompt = Path(args.prompt_path).read_text()
 
 # Setup
+random.seed(args.seed)
 policy, tokenizer = get_model_and_tokenizer(args.model_name, args.training_device)
 opitimizer = torch.optim.AdamW(
     policy.parameters(), lr=args.learning_rate, betas=(0.9, 0.95), weight_decay=0.0
@@ -58,10 +62,8 @@ server = VLLMServer(args.model_name, gpu=args.inference_gpu)
 run = wandb.init(
     project="grpo_experiments_standard_on_policy",
     config=vars(args),
-    name=args.run_name,
+    name=args.run_name+f"-seed{args.seed}",
 )
-
-
 
 # Load examples
 train_examples = load_gsm8k_examples(args.train_file_path)[:args.n_train_examples]
@@ -74,7 +76,7 @@ sample_param = {
     "temperature": 1.0,
     "max_tokens": 512,
     "n": args.group_size,
-    "seed": 41,
+    "seed": args.seed,
     "stop": ["</answer>"],
     "include_stop_str_in_output": True,
 }
@@ -83,32 +85,38 @@ sample_param_validation = {
     "temperature": 1.0,
     "max_tokens": 512,
     "n": 1,
-    "seed": 41,
+    "seed": args.seed,
     "stop": ["</answer>"],
     "include_stop_str_in_output": True,
 }
+
+
+def evaluate(step):
+    responses = server.generate_completions(
+        valid_prompts,
+        sample_param_validation,
+        batch_size=args.train_batch_size,
+    )
+    _, meta = compute_rollout_rewards(
+        r1_zero_reward_fn, [response.text for response in responses], valid_ground_truths
+    )
+    meta["avg_resp_len"] = sum(len(response.token_ids) for response in responses) / len(responses)
+    meta["cutoff_rate"] = sum(response.finish_reason == "length" for response in responses) / len(responses)
+    eval_meta = {f"eval/{key}": value for key, value in meta.items()}
+    run.log(eval_meta, step=step)
+
 
 try:
     server.start()
     server.init_weight_sync(args.training_device)
 
-    for i in range(50):
+    for i in range(args.steps):
         # Sync weights
         server.sync_policy_weights(policy)
 
         # Eval
         if i % 10 == 0:
-            vllm_out: list[VLLMCompletion] = server.generate_completions(
-                valid_prompts, 
-                sample_param_validation,
-                batch_size=args.train_batch_size
-            )
-            _, meta = compute_rollout_rewards(r1_zero_reward_fn, [completion.text for completion in vllm_out], valid_ground_truths)
-
-            meta["avg_resp_len"] = sum([len(response.token_ids) for response in vllm_out]) / len(vllm_out)
-            meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
-            eval_meta = {f"eval/{key}": value for key, value in meta.items()}
-            run.log(eval_meta, step=i)
+            evaluate(i)
 
         # Sample
         batch_examples = random.sample(train_examples, groups_per_batch)
@@ -135,8 +143,9 @@ try:
             )
         train_meta = {f"train/{key}": value for key, value in meta.items()}
         run.log(train_meta, step=i)
-        
-            
+    server.sync_policy_weights(policy)
+    evaluate(args.steps)
+
 finally:
     server.stop()
     run.finish()
