@@ -17,6 +17,7 @@ dependencies = [
     "einops>=0.8.1",
     "jaxtyping>=0.3.11",
     "wandb>=0.26.1",
+    "tzdata>=2026.6",
 ]
 
 [project.optional-dependencies]
