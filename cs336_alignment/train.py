@@ -41,7 +41,7 @@ parser.add_argument("--learning-rate", type=float, default=1e-5)
 parser.add_argument("--gradient-accumulation-steps", type=int, default=32)
 parser.add_argument("--max-grad-norm", type=float, default=1.0)
 parser.add_argument("--n-train-examples", type=int, default=6400)
-parser.add_argument("--n-test-examples", type=int, default=1024)
+parser.add_argument("--n-valid-examples", type=int, default=1024)
 parser.add_argument("--train-batch-size", type=int, default=256)
 parser.add_argument("--group-size", type=int, default=8)
 parser.add_argument("--run-name", default=f"exp-{datetime.datetime.now
@@ -67,7 +67,7 @@ run = wandb.init(
 
 # Load examples
 train_examples = load_gsm8k_examples(args.train_file_path)[:args.n_train_examples]
-valid_examples = load_gsm8k_examples(args.valid_file_path)[:args.n_test_examples]
+valid_examples = load_gsm8k_examples(args.valid_file_path)[:args.n_valid_examples]
 valid_prompts = [prompt.format(question=example[0]) for example in valid_examples]
 valid_ground_truths = [example[1] for example in valid_examples]
 groups_per_batch = args.train_batch_size // args.group_size
@@ -81,7 +81,7 @@ sample_param = {
     "include_stop_str_in_output": True,
 }
 
-sample_param_validation = {
+sample_param_valid = {
     "temperature": 1.0,
     "max_tokens": 512,
     "n": 1,
@@ -94,7 +94,7 @@ sample_param_validation = {
 def evaluate(step):
     responses = server.generate_completions(
         valid_prompts,
-        sample_param_validation,
+        sample_param_valid,
         batch_size=args.train_batch_size,
     )
     _, meta = compute_rollout_rewards(
