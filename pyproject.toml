@@ -18,6 +18,7 @@ dependencies = [
     "jaxtyping>=0.3.11",
     "wandb>=0.26.1",
     "tzdata>=2026.6",
+    "matplotlib>=3.11.2",
 ]
 
 [project.optional-dependencies]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cwddgwf0",
+    "name": "standard-grpo-seed3",
+    "seed": 3,
+    "state": "crashed",
+    "rows": 14,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 2,
+      "eval/avg_format_rewards": 2,
+      "eval/avg_resp_len": 2,
+      "eval/avg_rewards": 2,
+      "eval/cutoff_rate": 2,
+      "train/avg_answer_rewards": 14,
+      "train/avg_format_rewards": 14,
+      "train/avg_rewards": 14,
+      "train/avg_token_entropy": 14,
+      "train/cutoff_rate": 14,
+      "train/generations": 1,
+      "train/grad_norm": 14,
+      "train/loss": 14,
+      "train/raw_reward_mean": 14,
+      "train/raw_reward_std": 14
+    },
+    "tables": [
+      "media/table/train/generations_0_402a3c958eba5f7493be.table.json"
+    ]
+  },
+  {
+    "id": "2jb1u18s",
+    "name": "standard-grpo-seed4",
+    "seed": 4,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_7d06c1785d18efe52a22.table.json",
+      "media/table/train/generations_120_a401a182b1538464cbc7.table.json",
+      "media/table/train/generations_160_08f7dd291126f3cc26a8.table.json",
+      "media/table/train/generations_40_d26f41371d54686e9e7b.table.json",
+      "media/table/train/generations_80_ec0cf2227b24efb0b5fd.table.json"
+    ]
+  },
+  {
+    "id": "xfyv3ccf",
+    "name": "standard-grpo-seed2",
+    "seed": 2,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_f5297709669d3dbeb2db.table.json",
+      "media/table/train/generations_120_8942067aaf6cf642172d.table.json",
+      "media/table/train/generations_160_b74af2dd50a130924283.table.json",
+      "media/table/train/generations_40_427f50de8d753f89b0c1.table.json",
+      "media/table/train/generations_80_b9ea0b94c3641166f59d.table.json"
+    ]
+  },
+  {
+    "id": "5f1vhdfs",
+    "name": "standard-grpo-seed1",
+    "seed": 1,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_676c20f0a2eeb8ef80bc.table.json",
+      "media/table/train/generations_120_9126a9fcd2888ac447f0.table.json",
+      "media/table/train/generations_160_531a59b0c02f34642934.table.json",
+      "media/table/train/generations_40_87b0c36913408bf2072b.table.json",
+      "media/table/train/generations_80_fa836d4b00a75a3495be.table.json"
+    ]
+  }
+]
