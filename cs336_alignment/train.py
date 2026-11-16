@@ -44,8 +44,7 @@ parser.add_argument("--n-train-examples", type=int, default=6400)
 parser.add_argument("--n-valid-examples", type=int, default=1024)
 parser.add_argument("--train-batch-size", type=int, default=256)
 parser.add_argument("--group-size", type=int, default=8)
-parser.add_argument("--run-name", default=f"exp-{datetime.datetime.now
-(ZoneInfo("America/Los_Angeles")):%Y%m%d-%H%M}")
+parser.add_argument("--run-name", default=f"exp")
 parser.add_argument("--steps", type=int, default=200)
 parser.add_argument("--seed", type=int, default=random.randint(0, 10000))
 args = parser.parse_args()
@@ -62,7 +61,8 @@ server = VLLMServer(args.model_name, gpu=args.inference_gpu)
 run = wandb.init(
     project="grpo_experiments_standard_on_policy",
     config=vars(args),
-    name=args.run_name+f"-seed{args.seed}",
+    name=args.run_name+f"-{datetime.datetime.now
+(ZoneInfo("America/Los_Angeles")):%Y%m%d-%H%M}",
 )
 
 # Load examples
