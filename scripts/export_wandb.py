@@ -1,11 +1,13 @@
 """Export GRPO run data using the saved W&B login (no credentials in code).
 
 From the repository root:
-    uv run python scripts/export_wandb.py
+    uv run python scripts/export_wandb.py --include-run k7qkb5jd
     uv run python scripts/plot_grpo_metrics.py
 
 Exports full, unsampled history, metadata, and rollout tables. All matching
 run states are recorded; the plotting script selects finished runs only.
+The included ID above is the fourth seed (495), which has an auto-generated
+name rather than the standard-grpo prefix.
 """
 
 import argparse
@@ -27,6 +29,10 @@ def main():
     )
     parser.add_argument("--name-prefix", default="standard-grpo")
     parser.add_argument(
+        "--include-run", action="append", default=[], metavar="RUN_ID",
+        help="Also export this run ID regardless of its name (repeatable)",
+    )
+    parser.add_argument(
         "--output-dir", type=Path,
         help="Defaults to experiments/<W&B project name>/wandb_export",
     )
@@ -34,7 +40,11 @@ def main():
     if args.output_dir is None:
         args.output_dir = REPO_ROOT / "experiments" / args.project.rstrip("/").split("/")[-1] / "wandb_export"
     api = wandb.Api(timeout=60)
-    runs = [r for r in api.runs(args.project) if r.name.startswith(args.name_prefix)]
+    runs = [r for r in api.runs(args.project)
+            if r.name.startswith(args.name_prefix) or r.id in args.include_run]
+    missing = set(args.include_run) - {r.id for r in runs}
+    if missing:
+        raise SystemExit(f"Requested run IDs not found in project: {sorted(missing)}")
     if not runs:
         raise SystemExit("No matching runs; existing export left unchanged.")
 

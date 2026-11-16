@@ -1,15 +1,15 @@
 [
   {
     "train/generations": {
-      "ncols": 5,
+      "nrows": 16,
       "path": "media/table/train/generations_0_676c20f0a2eeb8ef80bc.table.json",
       "sha256": "676c20f0a2eeb8ef80bc828eda2079baef882702f52756bb469d954e5f26c602",
-      "size": 21036,
       "_latest_artifact_path": "wandb-client-artifact://u5toxm6s82zgxvwkyyhsxk4oxdlj7owj967zq4ysrf7qiapc2u267vxqjl7wb2sl4nmpspyljllo8b454wexzr2caqbxoe5jykvccupv9ip4s1caims0rkqs1tkd81pd:latest/train/generations.table.json",
-      "_type": "table-file",
       "artifact_path": "wandb-client-artifact://ojkbv2fdjb8h7lmkisx7xa796tqo05jqx1411ecm5w0bwbcfi3qs1wrdtydhqo9drddaru4em5slciqllinymuexdivsuoz2r0ubie9ld1e3wkgt5t5032i7xwt5vxnm/train/generations.table.json",
+      "size": 21036,
+      "_type": "table-file",
       "log_mode": "IMMUTABLE",
-      "nrows": 16
+      "ncols": 5
     },
     "train/loss": 0,
     "train/grad_norm": 0,
@@ -811,14 +811,14 @@
   },
   {
     "train/generations": {
-      "_latest_artifact_path": "wandb-client-artifact://w6imj6rkc9mypf40u8wn3mnmc3xi4bvs1l2k71qc90gwzudyaimar4qd3nvsskubhvncpug3heuub57gvt1wkh7mvqe8u9fcuh80vmtyxn6xt0rdw79ouc09lwn1zwmu:latest/train/generations.table.json",
       "_type": "table-file",
+      "artifact_path": "wandb-client-artifact://xwiw4yo29ldl3t2vfifh4be30b4dlltkh519stwr1tc0uiq2awlaklqq31cbfq22ncfk3nxcj69skeqf84z45rgjyv2anavtkrrwyc7jfethj4xjpsmqu6o3ywrsk3mf/train/generations.table.json",
       "log_mode": "IMMUTABLE",
-      "ncols": 5,
       "nrows": 16,
       "path": "media/table/train/generations_40_87b0c36913408bf2072b.table.json",
       "sha256": "87b0c36913408bf2072b784612f3f9cfa7055a1366a1601eb0aba866dc8af9bd",
-      "artifact_path": "wandb-client-artifact://xwiw4yo29ldl3t2vfifh4be30b4dlltkh519stwr1tc0uiq2awlaklqq31cbfq22ncfk3nxcj69skeqf84z45rgjyv2anavtkrrwyc7jfethj4xjpsmqu6o3ywrsk3mf/train/generations.table.json",
+      "_latest_artifact_path": "wandb-client-artifact://w6imj6rkc9mypf40u8wn3mnmc3xi4bvs1l2k71qc90gwzudyaimar4qd3nvsskubhvncpug3heuub57gvt1wkh7mvqe8u9fcuh80vmtyxn6xt0rdw79ouc09lwn1zwmu:latest/train/generations.table.json",
+      "ncols": 5,
       "size": 17883
     },
     "train/loss": -0.028996972367167473,
@@ -1621,15 +1621,15 @@
   },
   {
     "train/generations": {
+      "_latest_artifact_path": "wandb-client-artifact://8gz3wtk3ekeqrskowg0q19zzv6w33ege5pr7m1ut8bpx6g97wquzjh8gjgbphuspxy7ww170c4h97ycu7ojfckwwmuw1aurb0nq7nw1dcz4h2g5j7gsfryifj34rd3q8:latest/train/generations.table.json",
       "_type": "table-file",
+      "artifact_path": "wandb-client-artifact://ecumw3i6dkr1b7m3iwbak7w8iosppld4mwpgm3vfby0lgfipq99dndu39vyo9c317ozr7602ni04e8efr8f5af1ojad78vw7fcawr4ga5havijlupfzkedo6no0n552y/train/generations.table.json",
       "log_mode": "IMMUTABLE",
       "ncols": 5,
       "nrows": 16,
       "path": "media/table/train/generations_80_fa836d4b00a75a3495be.table.json",
-      "sha256": "fa836d4b00a75a3495bed65c6652c171c6c0c5d5cf63a3e8fb538c9fb3ccc502",
       "size": 14949,
-      "_latest_artifact_path": "wandb-client-artifact://8gz3wtk3ekeqrskowg0q19zzv6w33ege5pr7m1ut8bpx6g97wquzjh8gjgbphuspxy7ww170c4h97ycu7ojfckwwmuw1aurb0nq7nw1dcz4h2g5j7gsfryifj34rd3q8:latest/train/generations.table.json",
-      "artifact_path": "wandb-client-artifact://ecumw3i6dkr1b7m3iwbak7w8iosppld4mwpgm3vfby0lgfipq99dndu39vyo9c317ozr7602ni04e8efr8f5af1ojad78vw7fcawr4ga5havijlupfzkedo6no0n552y/train/generations.table.json"
+      "sha256": "fa836d4b00a75a3495bed65c6652c171c6c0c5d5cf63a3e8fb538c9fb3ccc502"
     },
     "train/loss": -0.013572853058576584,
     "train/grad_norm": 0.9609375,
@@ -2431,15 +2431,15 @@
   },
   {
     "train/generations": {
-      "ncols": 5,
-      "sha256": "9126a9fcd2888ac447f0222057802b51c48e968158c7fac5612ab43b1b5e9eb4",
-      "artifact_path": "wandb-client-artifact://y0h5mzmf0ner53icjj7fhecovmck7oxrwd8u1b2hos9h7j0igq925qulf8az2ffz86hk60khrs170jtorl0fapm0tyvob2wtfb6oe6kn11xytmx2kntej7w4aozgnes6/train/generations.table.json",
-      "log_mode": "IMMUTABLE",
       "nrows": 16,
+      "sha256": "9126a9fcd2888ac447f0222057802b51c48e968158c7fac5612ab43b1b5e9eb4",
+      "ncols": 5,
       "path": "media/table/train/generations_120_9126a9fcd2888ac447f0.table.json",
       "size": 18608,
       "_latest_artifact_path": "wandb-client-artifact://jghfxxcb3p2enua33738yw9yawtlel3cangc05li86scp3lr0uhaqn996b0151szux0b1kq8wcrf3s3ya9tut46x3vpemxuniw201v56wss8murqcln48vthkslawe0x:latest/train/generations.table.json",
-      "_type": "table-file"
+      "_type": "table-file",
+      "artifact_path": "wandb-client-artifact://y0h5mzmf0ner53icjj7fhecovmck7oxrwd8u1b2hos9h7j0igq925qulf8az2ffz86hk60khrs170jtorl0fapm0tyvob2wtfb6oe6kn11xytmx2kntej7w4aozgnes6/train/generations.table.json",
+      "log_mode": "IMMUTABLE"
     },
     "train/loss": -0.013831381686031818,
     "train/grad_norm": 1.0703125,
@@ -3245,11 +3245,11 @@
       "path": "media/table/train/generations_160_531a59b0c02f34642934.table.json",
       "sha256": "531a59b0c02f3464293407cad807295f2514e3ec3d5d4d8737a27a820b1909a0",
       "size": 19758,
-      "_latest_artifact_path": "wandb-client-artifact://fu67vj37ns08e1ax1p6gmonb4eue7iihr7k9f7zu36bs35sh27zt0bhvbjawk1pqxky06ciwjotwcyonjsmwtoacgfi6jv1o785jc01hr6f6nanezk76ronfckqnk3qr:latest/train/generations.table.json",
       "_type": "table-file",
+      "ncols": 5,
+      "_latest_artifact_path": "wandb-client-artifact://fu67vj37ns08e1ax1p6gmonb4eue7iihr7k9f7zu36bs35sh27zt0bhvbjawk1pqxky06ciwjotwcyonjsmwtoacgfi6jv1o785jc01hr6f6nanezk76ronfckqnk3qr:latest/train/generations.table.json",
       "artifact_path": "wandb-client-artifact://j5tsvctizmu6lb0ob5fdvnxefe6t20g69mw0rb3ngk1gnvgmswjn2v3mynol2qudy5qlkbuezbfbrde8afnetczint35xpz4vj2eymaxag6qvy3buiht38gjuytxm5ca/train/generations.table.json",
-      "log_mode": "IMMUTABLE",
-      "ncols": 5
+      "log_mode": "IMMUTABLE"
     },
     "train/loss": -0.05228179320693016,
     "train/grad_norm": 1.0390625,

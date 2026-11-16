@@ -118,5 +118,36 @@
       "media/table/train/generations_40_87b0c36913408bf2072b.table.json",
       "media/table/train/generations_80_fa836d4b00a75a3495be.table.json"
     ]
+  },
+  {
+    "id": "k7qkb5jd",
+    "name": "exp-20261114-2133-seed495",
+    "seed": 495,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_0656606ff4ae583a8d3f.table.json",
+      "media/table/train/generations_120_4354a045dd6d643cdfd0.table.json",
+      "media/table/train/generations_160_0278bdca0c9ab31e8d3d.table.json",
+      "media/table/train/generations_40_0f03f1e5588f6431df5c.table.json",
+      "media/table/train/generations_80_e40b015ef799a2546418.table.json"
+    ]
   }
 ]
