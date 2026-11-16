@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from cs336_alignment.vllm_utils import VLLMCompletion, VLLMServer
 from cs336_alignment.checkpoint import get_model_and_tokenizer
-from cs336_alignment.drgrpo_grader import r1_zero_reward_fn
+from cs336_alignment.drgrpo_grader import r1_zero_reward_fn, question_only_reward_fn
 from cs336_alignment.solution import grpo_train_step, load_gsm8k_examples, compute_rollout_rewards
 import torch
 import random
@@ -48,6 +48,12 @@ parser.add_argument("--run-name", default=f"exp")
 parser.add_argument("--steps", type=int, default=200)
 parser.add_argument("--seed", type=int, default=random.randint(0, 10000))
 args = parser.parse_args()
+if Path(args.prompt_path).name == "question_only.prompt":
+    reward_fn = question_only_reward_fn
+    stop_sequences = None
+else:
+    reward_fn = r1_zero_reward_fn
+    stop_sequences = ["</answer>"]
 # Pass vars(args) as the config when initializing a W&B run.
 prompt = Path(args.prompt_path).read_text()
 
@@ -77,7 +83,7 @@ sample_param = {
     "max_tokens": 512,
     "n": args.group_size,
     "seed": args.seed,
-    "stop": ["</answer>"],
+    "stop": stop_sequences,
     "include_stop_str_in_output": True,
 }
 
@@ -86,7 +92,7 @@ sample_param_valid = {
     "max_tokens": 512,
     "n": 1,
     "seed": args.seed,
-    "stop": ["</answer>"],
+    "stop": stop_sequences,
     "include_stop_str_in_output": True,
 }
 
@@ -98,7 +104,7 @@ def evaluate(step):
         batch_size=args.train_batch_size,
     )
     _, meta = compute_rollout_rewards(
-        r1_zero_reward_fn, [response.text for response in responses], valid_ground_truths
+        reward_fn, [response.text for response in responses], valid_ground_truths
     )
     meta["avg_resp_len"] = sum(len(response.token_ids) for response in responses) / len(responses)
     meta["cutoff_rate"] = sum(response.finish_reason == "length" for response in responses) / len(responses)
@@ -132,7 +138,7 @@ try:
 
         # Train
         loss, meta = grpo_train_step(
-            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, r1_zero_reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
+            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
         )
 
         meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
