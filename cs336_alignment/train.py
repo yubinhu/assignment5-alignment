@@ -8,6 +8,7 @@ import torch
 import random
 import wandb
 import datetime
+import os
 from zoneinfo import ZoneInfo
 
 
@@ -47,7 +48,22 @@ parser.add_argument("--group-size", type=int, default=8)
 parser.add_argument("--run-name", default=f"exp")
 parser.add_argument("--steps", type=int, default=200)
 parser.add_argument("--seed", type=int, default=random.randint(0, 10000))
+parser.add_argument("--checkpoint-every", type=int, default=20)
 args = parser.parse_args()
+checkpoint_path = Path("checkpoints") / f"{args.run_name}.pt"
+
+checkpoint = None
+start_step = 0
+if checkpoint_path.exists():
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+    # Saved settings override defaults; explicit CLI arguments override saved settings.
+    saved_args = {key: value for key, value in checkpoint["config"].items()
+                  if key in vars(args)}
+    args = parser.parse_args(namespace=argparse.Namespace(**saved_args))
+    start_step = checkpoint["next_step"]
+    args.resumed_from_run = checkpoint["wandb_run_id"]
+    args.resumed_from_step = start_step
+    print(f"Resuming at step {start_step} with saved settings and CLI overrides.", flush=True)
 if Path(args.prompt_path).name == "question_only.prompt":
     reward_fn = question_only_reward_fn
     stop_sequences = None
@@ -63,6 +79,11 @@ policy, tokenizer = get_model_and_tokenizer(args.model_name, args.training_devic
 opitimizer = torch.optim.AdamW(
     policy.parameters(), lr=args.learning_rate, betas=(0.9, 0.95), weight_decay=0.0
 )
+if checkpoint is not None:
+    policy.load_state_dict(checkpoint.pop("model"))
+    opitimizer.load_state_dict(checkpoint.pop("optimizer"))
+    for param_group in opitimizer.param_groups:
+        param_group["lr"] = args.learning_rate
 server = VLLMServer(args.model_name, gpu=args.inference_gpu)
 run = wandb.init(
     project="grpo_experiments_standard_on_policy",
@@ -112,11 +133,45 @@ def evaluate(step):
     run.log(eval_meta, step=step)
 
 
+def save_checkpoint(next_step):
+    """Save only after a complete optimizer update; keep the old file until ready."""
+    path = checkpoint_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    state = {
+        "model": policy.state_dict(),
+        "optimizer": opitimizer.state_dict(),
+        "next_step": next_step,
+        "config": vars(args),
+        "wandb_run_id": run.id,
+        "python_rng": random.getstate(),
+        "torch_rng": torch.get_rng_state(),
+        "cuda_rng": (torch.cuda.get_rng_state(args.training_device)
+                     if torch.device(args.training_device).type == "cuda" else None),
+    }
+    # Atomic replacement protects the previous checkpoint from a partial write.
+    # On Modal this path still needs a persistent volume to survive container loss.
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("wb") as f:
+        torch.save(state, f)
+        f.flush()
+        os.fsync(f.fileno())
+    temporary.replace(path)
+    print(f"Saved checkpoint after {next_step} updates: {path}", flush=True)
+
+
 try:
     server.start()
     server.init_weight_sync(args.training_device)
 
-    for i in range(args.steps):
+    # Initialization can consume randomness, so restore RNGs immediately before training.
+    if checkpoint is not None:
+        random.setstate(checkpoint["python_rng"])
+        torch.set_rng_state(checkpoint["torch_rng"])
+        if checkpoint["cuda_rng"] is not None and torch.device(args.training_device).type == "cuda":
+            torch.cuda.set_rng_state(checkpoint["cuda_rng"], args.training_device)
+        del checkpoint
+
+    for i in range(start_step, args.steps):
         # Sync weights
         server.sync_policy_weights(policy)
 
@@ -149,6 +204,8 @@ try:
             )
         train_meta = {f"train/{key}": value for key, value in meta.items()}
         run.log(train_meta, step=i)
+        if (i + 1) % args.checkpoint_every == 0 or i + 1 == args.steps:
+            save_checkpoint(i + 1)
     server.sync_policy_weights(policy)
     evaluate(args.steps)
 
