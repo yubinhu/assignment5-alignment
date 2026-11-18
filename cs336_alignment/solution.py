@@ -107,11 +107,15 @@ def compute_group_normalized_rewards(
     
     if baseline == "mean":
         base = torch.mean(rewards, dim=1, keepdim=True)
+    elif baseline == "none":
+        base = 0
     else:
         raise NotImplementedError
 
     if advantage_normalizer == "std":
         norm = torch.std(rewards, dim=1, keepdim=True) + advantage_eps
+    elif advantage_normalizer == "none":
+        norm = 1
     else:
         raise NotImplementedError
 
