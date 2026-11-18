@@ -1,0 +1,126 @@
+[
+  {
+    "id": "xrbanno7",
+    "name": "lr-5e-6-seed2-20261115-1825",
+    "seed": 2,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_d2f0149081e4cec270d5.table.json",
+      "media/table/train/generations_120_0eb514a14c8e7d7a67df.table.json",
+      "media/table/train/generations_160_f70300ed3294bb0a4227.table.json",
+      "media/table/train/generations_40_383e4970ccd28bd62122.table.json",
+      "media/table/train/generations_80_a1e3ac85e2dfe8702d02.table.json"
+    ]
+  },
+  {
+    "id": "n0aquqlu",
+    "name": "lr-2e-5-seed1-20261115-1945",
+    "seed": 1,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_63f2575f44355b83251e.table.json",
+      "media/table/train/generations_120_51239aaba84aa36c8ee2.table.json",
+      "media/table/train/generations_160_200b647a6c4520b6eb1f.table.json",
+      "media/table/train/generations_40_4f3daacc53edb8c3f479.table.json",
+      "media/table/train/generations_80_c04df3ce371dbe58b59b.table.json"
+    ]
+  },
+  {
+    "id": "kw45eahl",
+    "name": "lr-2e-5-20261115-2015",
+    "seed": 9895,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_3e765a7b107e26fcfe96.table.json",
+      "media/table/train/generations_120_d984e7354b2680014730.table.json",
+      "media/table/train/generations_160_9428e933edf87bc01cd8.table.json",
+      "media/table/train/generations_40_84559460fc24e1efcff9.table.json",
+      "media/table/train/generations_80_fa9a328dd366f8ed1328.table.json"
+    ]
+  },
+  {
+    "id": "ohs54sx9",
+    "name": "lr-5e-6-seed1-20261115-2039",
+    "seed": 1,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_0f3117d9d7404a6dffb2.table.json",
+      "media/table/train/generations_120_36465cc267fef6c1c935.table.json",
+      "media/table/train/generations_160_635924e669e184df2e18.table.json",
+      "media/table/train/generations_40_259430f713d096fc0ad6.table.json",
+      "media/table/train/generations_80_b7e741d24441f4554e35.table.json"
+    ]
+  }
+]

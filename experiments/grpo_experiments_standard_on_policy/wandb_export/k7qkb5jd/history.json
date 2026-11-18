@@ -14,14 +14,14 @@
     "eval/cutoff_rate": 0.0185546875,
     "train/generations": {
       "path": "media/table/train/generations_0_0656606ff4ae583a8d3f.table.json",
+      "size": 18673,
+      "_type": "table-file",
+      "ncols": 5,
+      "nrows": 16,
       "sha256": "0656606ff4ae583a8d3fcb8716332be240a1315cc74d2dcd8c864aba9d134d5e",
       "_latest_artifact_path": "wandb-client-artifact://5pacbk5kmqtidw3fb19t2dgc5se8fvb0veeppbrpr4s4iws2oc1vyp7347j2rwfr5olb3qet5bicyicyj5qjd02bn7fd7vb3m8zeknqstb3piam0gng5isydcwok8jr8:latest/train/generations.table.json",
       "artifact_path": "wandb-client-artifact://42tdatnsxj7aeomxqyuxny9ik6uqhsiykv374rrgw1sp9j13f3rdz9akerw7etl5vrgmpps9defqcpo1c0u7s1hx8zausu921nlhy6dhrlsz6avby3l5twy539tae4xx/train/generations.table.json",
-      "log_mode": "IMMUTABLE",
-      "ncols": 5,
-      "size": 18673,
-      "_type": "table-file",
-      "nrows": 16
+      "log_mode": "IMMUTABLE"
     },
     "train/avg_answer_rewards": 0,
     "train/grad_norm": 0,
@@ -824,14 +824,14 @@
     "eval/cutoff_rate": 0.0048828125,
     "train/generations": {
       "_type": "table-file",
+      "path": "media/table/train/generations_40_0f03f1e5588f6431df5c.table.json",
+      "sha256": "0f03f1e5588f6431df5cb926ffaf9454744024e2cc7c35245e212015aa65be66",
+      "_latest_artifact_path": "wandb-client-artifact://6s3bmvq3k95idqm0fhns4whz17n2jl30gus0fl9pwk32ne6qw0tfi63jzowjht5b970vhnrvrxdaodq7cusy4rlvakx3ryyrvadrcrg21crm1yw86hret33j5wh1izig:latest/train/generations.table.json",
       "artifact_path": "wandb-client-artifact://tqi7jeoxepg7ckh9ocm9itmuzmb1xsfk2983gz1t18q8lfeh8frm2djekmtvkmc8sd6m47tknt9t8npn1weh01ia16bbqkb5vh9npgr7mxln8ymf0w9wwzhphebrw0w9/train/generations.table.json",
+      "log_mode": "IMMUTABLE",
       "ncols": 5,
       "nrows": 16,
-      "size": 15290,
-      "_latest_artifact_path": "wandb-client-artifact://6s3bmvq3k95idqm0fhns4whz17n2jl30gus0fl9pwk32ne6qw0tfi63jzowjht5b970vhnrvrxdaodq7cusy4rlvakx3ryyrvadrcrg21crm1yw86hret33j5wh1izig:latest/train/generations.table.json",
-      "log_mode": "IMMUTABLE",
-      "path": "media/table/train/generations_40_0f03f1e5588f6431df5c.table.json",
-      "sha256": "0f03f1e5588f6431df5cb926ffaf9454744024e2cc7c35245e212015aa65be66"
+      "size": 15290
     },
     "train/avg_answer_rewards": 0.453125,
     "train/grad_norm": 1.28125,
@@ -1633,15 +1633,15 @@
     "train/cutoff_rate": 0.00390625,
     "eval/cutoff_rate": 0.0166015625,
     "train/generations": {
+      "nrows": 16,
       "path": "media/table/train/generations_80_e40b015ef799a2546418.table.json",
-      "size": 20354,
       "_latest_artifact_path": "wandb-client-artifact://9hxveppu733e5b91fwqyefoe5rx352hotf9liy34n6ldscd5rfkp4xanbf9yyie62lhhbdik41f3go72mjsda6y2uh3355181wnmo08dfuyay0jcognldoj3ylvyyp01:latest/train/generations.table.json",
       "_type": "table-file",
-      "sha256": "e40b015ef799a25464184fb4c54d652be06c8dcccfd2cb54e395e4a5db43290b",
-      "artifact_path": "wandb-client-artifact://rg8vqjsvnjrlx7eph0ub9ad7gjew1ok3w5m1o7e1ureo6t9t7ih5u7uxh8h1ry91y14l33obnjx04rqkt4yq71izkotrl3x1kvixm271ahyu088t080j5jhisw5syalc/train/generations.table.json",
       "log_mode": "IMMUTABLE",
       "ncols": 5,
-      "nrows": 16
+      "sha256": "e40b015ef799a25464184fb4c54d652be06c8dcccfd2cb54e395e4a5db43290b",
+      "size": 20354,
+      "artifact_path": "wandb-client-artifact://rg8vqjsvnjrlx7eph0ub9ad7gjew1ok3w5m1o7e1ureo6t9t7ih5u7uxh8h1ry91y14l33obnjx04rqkt4yq71izkotrl3x1kvixm271ahyu088t080j5jhisw5syalc/train/generations.table.json"
     },
     "train/avg_answer_rewards": 0.59765625,
     "train/grad_norm": 1.0859375,
@@ -2443,15 +2443,15 @@
     "train/cutoff_rate": 0.01171875,
     "eval/cutoff_rate": 0.005859375,
     "train/generations": {
-      "sha256": "4354a045dd6d643cdfd0bb490eb665349b95d84c248239142df2b97249e854d7",
-      "_type": "table-file",
+      "_latest_artifact_path": "wandb-client-artifact://awrl5prk575pfy7zgfo0ycjdvoeclg0jq5h2wiagnitl95xknvxkomie5aiaxmrs7z2hn96pgpy0wkwznvutjud2at70xyjre2gxr57j1d9akeu6fh0qcs8f1q0q06zu:latest/train/generations.table.json",
+      "artifact_path": "wandb-client-artifact://24e26uwgip01w9kv9tuxstjpzrot9fvaqlz2y6s86y510nv3jm60g9c05eqy54qvfwvs1xsv3upch9g2k6rqwxzzp92hjmuak0yc3ijbef68cemi7uyeahv9zi219lkn/train/generations.table.json",
       "log_mode": "IMMUTABLE",
       "ncols": 5,
       "nrows": 16,
+      "path": "media/table/train/generations_120_4354a045dd6d643cdfd0.table.json",
+      "sha256": "4354a045dd6d643cdfd0bb490eb665349b95d84c248239142df2b97249e854d7",
       "size": 17096,
-      "_latest_artifact_path": "wandb-client-artifact://awrl5prk575pfy7zgfo0ycjdvoeclg0jq5h2wiagnitl95xknvxkomie5aiaxmrs7z2hn96pgpy0wkwznvutjud2at70xyjre2gxr57j1d9akeu6fh0qcs8f1q0q06zu:latest/train/generations.table.json",
-      "artifact_path": "wandb-client-artifact://24e26uwgip01w9kv9tuxstjpzrot9fvaqlz2y6s86y510nv3jm60g9c05eqy54qvfwvs1xsv3upch9g2k6rqwxzzp92hjmuak0yc3ijbef68cemi7uyeahv9zi219lkn/train/generations.table.json",
-      "path": "media/table/train/generations_120_4354a045dd6d643cdfd0.table.json"
+      "_type": "table-file"
     },
     "train/avg_answer_rewards": 0.44921875,
     "train/grad_norm": 1.1875,
@@ -3253,15 +3253,15 @@
     "train/cutoff_rate": 0.00390625,
     "eval/cutoff_rate": 0.005859375,
     "train/generations": {
-      "_type": "table-file",
+      "_latest_artifact_path": "wandb-client-artifact://jg1r44xr76bm3hkkztwj2vkchfu0f57lyz6uwb7zw6fezilfsrbcdpg8kh6w6mtxl4qglece2uv4d03wz8fhel6gbiux6i7nhaxhu7cde9bdfecml7toxiwaj28590q4:latest/train/generations.table.json",
       "artifact_path": "wandb-client-artifact://3qtlui11z3k01qpzubwq525vunrpm16nfe8xmzaf4m9dvvry7ag2fx95g9oyt76l0ajbzqndvh2qurrw2rl2r9hurbhkpg2zqk26azsrej5fp6nbo9sq974s0jqjv1j7/train/generations.table.json",
-      "nrows": 16,
-      "path": "media/table/train/generations_160_0278bdca0c9ab31e8d3d.table.json",
-      "sha256": "0278bdca0c9ab31e8d3d54b19cdc531410f2e7ddea19d103b964622112a5726d",
-      "size": 22121,
       "log_mode": "IMMUTABLE",
+      "nrows": 16,
+      "size": 22121,
+      "_type": "table-file",
       "ncols": 5,
-      "_latest_artifact_path": "wandb-client-artifact://jg1r44xr76bm3hkkztwj2vkchfu0f57lyz6uwb7zw6fezilfsrbcdpg8kh6w6mtxl4qglece2uv4d03wz8fhel6gbiux6i7nhaxhu7cde9bdfecml7toxiwaj28590q4:latest/train/generations.table.json"
+      "path": "media/table/train/generations_160_0278bdca0c9ab31e8d3d.table.json",
+      "sha256": "0278bdca0c9ab31e8d3d54b19cdc531410f2e7ddea19d103b964622112a5726d"
     },
     "train/avg_answer_rewards": 0.5703125,
     "train/grad_norm": 1.1953125,

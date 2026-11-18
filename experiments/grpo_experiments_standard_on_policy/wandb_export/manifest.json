@@ -149,5 +149,36 @@
       "media/table/train/generations_40_0f03f1e5588f6431df5c.table.json",
       "media/table/train/generations_80_e40b015ef799a2546418.table.json"
     ]
+  },
+  {
+    "id": "uy6n4c8l",
+    "name": "standard-grpo-seed3",
+    "seed": 3,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_a53ad02203032eb48b48.table.json",
+      "media/table/train/generations_120_5ecf4c700d6b6e8b27f3.table.json",
+      "media/table/train/generations_160_957704079d0d972bb170.table.json",
+      "media/table/train/generations_40_534959f7570d2f8ab9d8.table.json",
+      "media/table/train/generations_80_e69d9120cd0fc7097fa6.table.json"
+    ]
   }
 ]

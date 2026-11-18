@@ -16,15 +16,15 @@
     "_step": 0,
     "train/loss": 0,
     "train/generations": {
-      "nrows": 16,
-      "path": "media/table/train/generations_0_402a3c958eba5f7493be.table.json",
       "sha256": "402a3c958eba5f7493be08c88e9c0a4cdcdf6d2455651db34f1723a9d573c4fb",
-      "size": 14853,
       "_latest_artifact_path": "wandb-client-artifact://ewcuzc4vc2f5otnc9efyjfyrpehe98zf2fi010ux7256fq2tpmzol5u3oomro6m7tk1jclzrodg7ea7s2l3jnlrq6bvulow9m777zivxx5yp1ermx0tlbxgp182a2fe3:latest/train/generations.table.json",
+      "nrows": 16,
+      "size": 14853,
       "_type": "table-file",
-      "ncols": 5,
       "artifact_path": "wandb-client-artifact://l4814c3gja9v6nlvsgn7faqdskfvyxjwfuryf6hqiafxxeruj88q2dnjc1stcww99y1kig2l3mczhghtja0oqyphphbi3gh5r6t1apmj3r3qgaxux7a6c0t2bue9ayjd/train/generations.table.json",
-      "log_mode": "IMMUTABLE"
+      "log_mode": "IMMUTABLE",
+      "ncols": 5,
+      "path": "media/table/train/generations_0_402a3c958eba5f7493be.table.json"
     },
     "train/avg_answer_rewards": 0,
     "train/avg_format_rewards": 0.50390625

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "4vu7lgwj",
+    "name": "prompt-question_only-seed2-20261115-1943",
+    "seed": 2,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_3bd6ba934dee71082aa6.table.json",
+      "media/table/train/generations_120_a2bad71ec34a5ef534ef.table.json",
+      "media/table/train/generations_160_34e8a09244d4581ac26d.table.json",
+      "media/table/train/generations_40_a21be88576d8d9f32f00.table.json",
+      "media/table/train/generations_80_861e3526f417cec097ee.table.json"
+    ]
+  },
+  {
+    "id": "humhzn40",
+    "name": "prompt-question_only-seed1-20261115-2022",
+    "seed": 1,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_de2f3d579da62a88922d.table.json",
+      "media/table/train/generations_120_b37715fbc06d34d364a3.table.json",
+      "media/table/train/generations_160_08ae393d5527450c6019.table.json",
+      "media/table/train/generations_40_ad7d2cc542f7c597dc88.table.json",
+      "media/table/train/generations_80_2bf8d8e47f9051a132bd.table.json"
+    ]
+  },
+  {
+    "id": "yri5x16m",
+    "name": "prompt-r1_zero_three_shot_gsm8k-seed2-20261115-2023",
+    "seed": 2,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_3db5858203dad32ad27a.table.json",
+      "media/table/train/generations_120_74bd6dcbc18450f9d8b9.table.json",
+      "media/table/train/generations_160_173c42bbf604efffff3d.table.json",
+      "media/table/train/generations_40_3ffe456387e182d5071d.table.json",
+      "media/table/train/generations_80_578cc84ec6aeb794d205.table.json"
+    ]
+  },
+  {
+    "id": "mhcxpeyr",
+    "name": "prompt-r1_zero_three_shot_gsm8k-seed1-20261115-2054",
+    "seed": 1,
+    "state": "finished",
+    "rows": 201,
+    "metric_counts": {
+      "eval/avg_answer_rewards": 21,
+      "eval/avg_format_rewards": 21,
+      "eval/avg_resp_len": 21,
+      "eval/avg_rewards": 21,
+      "eval/cutoff_rate": 21,
+      "train/avg_answer_rewards": 200,
+      "train/avg_format_rewards": 200,
+      "train/avg_rewards": 200,
+      "train/avg_token_entropy": 200,
+      "train/cutoff_rate": 200,
+      "train/generations": 5,
+      "train/grad_norm": 200,
+      "train/loss": 200,
+      "train/raw_reward_mean": 200,
+      "train/raw_reward_std": 200
+    },
+    "tables": [
+      "media/table/train/generations_0_09633f307f8fe1227a26.table.json",
+      "media/table/train/generations_120_0ed9c106149749e89369.table.json",
+      "media/table/train/generations_160_d3a72b9953f2f02fb176.table.json",
+      "media/table/train/generations_40_ef936e384b17cdd710d4.table.json",
+      "media/table/train/generations_80_b982b0021f713ccbdd61.table.json"
+    ]
+  }
+]
