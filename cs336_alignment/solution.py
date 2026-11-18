@@ -162,6 +162,9 @@ def aggregate_loss_across_microbatch(
         masked = per_token_policy_gradient_loss.masked_fill(~mask, 0)
         seq_avg_loss = masked.sum(dim=1) / mask.sum(dim=1)
         loss = seq_avg_loss.mean()
+    elif loss_normalization == "constant":
+        masked = per_token_policy_gradient_loss.masked_fill(~mask, 0)
+        loss = masked.sum() / normalization_constant
     else:
         raise NotImplementedError
 
