@@ -250,3 +250,6 @@ def grpo_train_step(
     meta["avg_token_entropy"] = response_entropy / response_tokens if response_tokens else 0
 
     return loss, meta
+
+# think_about_length_normalization
+# This term is going to encourage the model to output longer answers when the answer is wrong, because the reward gets divided by a larger factor. If the model knows it's going to get it wrong, it may as well output as many tokens as possible to try to reduce the penalty. 
