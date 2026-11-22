@@ -44,10 +44,18 @@ parser.add_argument("--n-train-examples", type=int, default=6400)
 parser.add_argument("--n-valid-examples", type=int, default=1024)
 parser.add_argument("--train-batch-size", type=int, default=256)
 parser.add_argument("--group-size", type=int, default=8)
+parser.add_argument("--baseline", choices=("mean", "none"), default="mean")
+parser.add_argument("--advantage-normalizer", choices=("std", "none", "mean"), default="std")
+parser.add_argument("--loss-normalization", choices=("sequence", "constant"), default="sequence")
+parser.add_argument("--normalization-constant", type=int)
 parser.add_argument("--run-name", default=f"exp")
 parser.add_argument("--steps", type=int, default=200)
 parser.add_argument("--seed", type=int, default=random.randint(0, 10000))
 args = parser.parse_args()
+if args.loss_normalization == "constant" and (
+    args.normalization_constant is None or args.normalization_constant <= 0
+):
+    parser.error("--loss-normalization constant requires a positive --normalization-constant")
 if Path(args.prompt_path).name == "question_only.prompt":
     reward_fn = question_only_reward_fn
     stop_sequences = None
@@ -138,7 +146,11 @@ try:
 
         # Train
         loss, meta = grpo_train_step(
-            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size
+            policy, tokenizer, opitimizer, args.gradient_accumulation_steps, args.max_grad_norm, reward_fn, repeated_prompts, [response.text for response in vllm_out], repeated_truths, args.group_size,
+            baseline=args.baseline,
+            advantage_normalizer=args.advantage_normalizer,
+            loss_normalization=args.loss_normalization,
+            normalization_constant=args.normalization_constant,
         )
 
         meta["cutoff_rate"] = sum([response.finish_reason == "length" for response in vllm_out]) / len(vllm_out)
