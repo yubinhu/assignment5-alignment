@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import Any, Callable, Literal
 from jaxtyping import Float, Int, Bool
-
+import math
 from torch.optim import Optimizer
 from transformers import PreTrainedTokenizer, PreTrainedModel
 import torch
@@ -204,10 +204,7 @@ def grpo_train_step(
         advantage_normalizer=advantage_normalizer,
     )
     
-    microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
-    if microbatch_size % group_size != 0 or len(repeated_prompts) != gradient_accumulation_steps * microbatch_size:
-        raise ValueError("Dimension mismatch between group_size, gradient_steps, and inputs")
-
+    microbatch_size = int(math.ceil(len(repeated_prompts) / gradient_accumulation_steps))
     device = next(model.parameters()).device
     loss = torch.zeros(1, device=device)
     meta: dict[str, Tensor | float] = {**crr_meta, **cgnr_meta}
@@ -217,6 +214,8 @@ def grpo_train_step(
         inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
         responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
         advantages_microbatch = advantages[i*microbatch_size:i*microbatch_size+microbatch_size].to(device)
+        if not inputs_microbatch:
+            continue
 
         tokenization_output = tokenize_prompt_and_output(inputs_microbatch, responses_microbatch, tokenizer)
         # Tokenization creates CPU tensors; transfer the whole batch, including
@@ -245,7 +244,7 @@ def grpo_train_step(
         )
         # microbatch adjustement
         if loss_normalization == "sequence":
-            microbatch_loss *= (microbatch_size / len(repeated_prompts))
+            microbatch_loss *= (len(inputs_microbatch) / len(repeated_prompts))
         microbatch_loss.backward()
         loss += microbatch_loss.detach() # only for logging
 
