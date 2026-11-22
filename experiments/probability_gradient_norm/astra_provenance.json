@@ -1,0 +1,7 @@
+{
+  "model": "gpt-6-astra",
+  "generation": "One batch generation via Codex subagent",
+  "temperature": "Not exposed",
+  "input": "Selected questions only; no gold or reference answers read",
+  "date": "2026-11-22"
+}

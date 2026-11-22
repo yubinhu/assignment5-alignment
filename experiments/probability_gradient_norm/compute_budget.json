@@ -1,0 +1,28 @@
+{
+  "budget_gpu_hours": 2,
+  "gpu_count_per_app_max": 1,
+  "successful_function_seconds": 174.66531181000002,
+  "successful_app": {
+    "id": "ap-I2ceWYIeDLe93yHcK0ePbZ",
+    "created": "2026-11-22T11:19:30-08:00",
+    "stopped": "2026-11-22T11:23:36-08:00",
+    "wall_seconds": 246
+  },
+  "failed_startup_app": {
+    "id": "ap-pJ5FVV6FM3x5SV1VBtLvWC",
+    "created": "2026-11-22T11:16:58-08:00",
+    "stopped": "2026-11-22T11:19:27-08:00",
+    "wall_seconds": 149,
+    "reason": "Module-level local path computation invalid at /root/run_modal.py; fixed before rerun; model not loaded."
+  },
+  "conservative_gpu_seconds_upper_bound": 425.0,
+  "conservative_gpu_hours_upper_bound": 0.11805555555555555,
+  "accounting_note": "Sum of complete lifetimes of three apps, each invoking only one GPU function at a time. Includes image build, queueing, startup and shutdown; exceeds actual allocated GPU time, not a billing measurement. All three apps confirmed stopped with zero tasks.",
+  "whitespace_sensitivity_app": {
+    "id": "ap-6tILN1xmQ0mJPwsuFNj1Du",
+    "created": "2026-11-22 11:25:38-08:00",
+    "stopped": "2026-11-22 11:26:08-08:00",
+    "wall_seconds": 30.0,
+    "gpu_function_seconds": 9.928857557
+  }
+}

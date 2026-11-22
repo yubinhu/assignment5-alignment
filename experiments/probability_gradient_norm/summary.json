@@ -1,0 +1,423 @@
+{
+  "metadata": {
+    "model": "allenai/OLMo-2-0425-1B",
+    "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+    "seed": 336,
+    "n_prompts": 32,
+    "max_new_tokens": 256,
+    "matched_prefix_cap": 128,
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "timeout_seconds": 3000,
+    "score_dtype": "float32",
+    "tf32": false,
+    "generation_dtype": "bfloat16 autocast with float32 parameters",
+    "score_temperature": 1.0,
+    "weights_updated": false,
+    "prompt_template": "A conversation between User and Assistant. The User asks a question, and the Assistant solves it. The Assistant first thinks about the reasoning process in the mind and then provides the User with the answer. The reasoning process is enclosed within <think> </think> and answer is enclosed within <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>.\nUser: {question}\nAssistant: <think>",
+    "astra_provenance": {
+      "model": "gpt-6-astra",
+      "generation": "One batch generation via Codex subagent",
+      "temperature": "Not exposed",
+      "input": "Selected questions only; no gold or reference answers read",
+      "date": "2026-11-22"
+    },
+    "versions": {
+      "torch": "2.10.0",
+      "transformers": "5.7.0",
+      "accelerate": "1.6.0"
+    },
+    "input_sha256": "f334556609fee74dcf10f87e2be62d21992afc187794f6fc1e52ec791c43a41a",
+    "gradient_definition": "L2 over all parameter gradients of sum response-token log probabilities; no reward, KL, clipping, or optimizer",
+    "token_boundary": "Prompt and continuation encoded separately; original generated token IDs retained. EOS excluded for all sources. Closing answer tag retained, following text discarded.",
+    "primary_comparison": "Within-prompt same-token-count prefix: min(128, shortest response among all five conditions)",
+    "gpu_function_seconds": 174.66531181000002,
+    "peak_memory_gb": 12.200621056,
+    "repeat_gradient_relative_error": 4.830074751271951e-08,
+    "stopped_early": false
+  },
+  "seed": 336,
+  "bootstrap_unit": "prompt (all conditions retained together)",
+  "paired_bootstrap_draws": 2000,
+  "correlation_bootstrap_draws": 1000,
+  "n_complete_prompt_clusters": 32,
+  "excluded_incomplete_or_invalid_prompt_ids": [],
+  "duplicate_prompt_ids": [],
+  "unrecognized_record_ids": [],
+  "conditions": {
+    "greedy": {
+      "full": {
+        "n": 32,
+        "mean_n_tokens": 74.5625,
+        "min_n_tokens": 35,
+        "median_n_tokens": 65.5,
+        "max_n_tokens": 214,
+        "mean_nll_per_token": 0.2590463054921841,
+        "median_grad_norm_mean": 10.909942468260706,
+        "geometric_mean_grad_norm_mean": 11.0158464980523,
+        "median_grad_norm_sum": 706.5161491721091
+      },
+      "matched_complete_clusters": {
+        "n": 32,
+        "mean_n_tokens": 42.8125,
+        "min_n_tokens": 9,
+        "median_n_tokens": 39.5,
+        "max_n_tokens": 88,
+        "mean_nll_per_token": 0.31597144405509425,
+        "median_grad_norm_mean": 14.806015592720057,
+        "geometric_mean_grad_norm_mean": 15.197362497552794,
+        "median_grad_norm_sum": 623.5710972355391
+      },
+      "truncated_count": 0
+    },
+    "sample_t1_a": {
+      "full": {
+        "n": 32,
+        "mean_n_tokens": 101.90625,
+        "min_n_tokens": 9,
+        "median_n_tokens": 87.5,
+        "max_n_tokens": 256,
+        "mean_nll_per_token": 1.154864633455678,
+        "median_grad_norm_mean": 13.937451680499267,
+        "geometric_mean_grad_norm_mean": 16.611140806085476,
+        "median_grad_norm_sum": 1264.0448726229451
+      },
+      "matched_complete_clusters": {
+        "n": 32,
+        "mean_n_tokens": 42.8125,
+        "min_n_tokens": 9,
+        "median_n_tokens": 39.5,
+        "max_n_tokens": 88,
+        "mean_nll_per_token": 1.261323100630122,
+        "median_grad_norm_mean": 22.922437487321574,
+        "geometric_mean_grad_norm_mean": 23.937819177503158,
+        "median_grad_norm_sum": 964.2061206837761
+      },
+      "truncated_count": 3
+    },
+    "sample_t1_b": {
+      "full": {
+        "n": 32,
+        "mean_n_tokens": 104.34375,
+        "min_n_tokens": 23,
+        "median_n_tokens": 80.5,
+        "max_n_tokens": 256,
+        "mean_nll_per_token": 0.9315467277366805,
+        "median_grad_norm_mean": 14.374447859866576,
+        "geometric_mean_grad_norm_mean": 14.382244960348315,
+        "median_grad_norm_sum": 1152.558380996258
+      },
+      "matched_complete_clusters": {
+        "n": 32,
+        "mean_n_tokens": 42.8125,
+        "min_n_tokens": 9,
+        "median_n_tokens": 39.5,
+        "max_n_tokens": 88,
+        "mean_nll_per_token": 1.1191552123018886,
+        "median_grad_norm_mean": 22.874765845981017,
+        "geometric_mean_grad_norm_mean": 22.36844849700898,
+        "median_grad_norm_sum": 919.6554208830992
+      },
+      "truncated_count": 2
+    },
+    "sample_t15": {
+      "full": {
+        "n": 32,
+        "mean_n_tokens": 231.375,
+        "min_n_tokens": 19,
+        "median_n_tokens": 256.0,
+        "max_n_tokens": 256,
+        "mean_nll_per_token": 10.004550383667802,
+        "median_grad_norm_mean": 16.024688540755463,
+        "geometric_mean_grad_norm_mean": 17.58173364849,
+        "median_grad_norm_sum": 4053.539014841048
+      },
+      "matched_complete_clusters": {
+        "n": 32,
+        "mean_n_tokens": 42.8125,
+        "min_n_tokens": 9,
+        "median_n_tokens": 39.5,
+        "max_n_tokens": 88,
+        "mean_nll_per_token": 9.072077972447817,
+        "median_grad_norm_mean": 40.89141198545001,
+        "geometric_mean_grad_norm_mean": 43.58968220045838,
+        "median_grad_norm_sum": 1650.207178924341
+      },
+      "truncated_count": 28
+    },
+    "astra": {
+      "full": {
+        "n": 32,
+        "mean_n_tokens": 74.71875,
+        "min_n_tokens": 45,
+        "median_n_tokens": 74.0,
+        "max_n_tokens": 140,
+        "mean_nll_per_token": 1.3469708563015343,
+        "median_grad_norm_mean": 23.407037469314666,
+        "geometric_mean_grad_norm_mean": 23.37647231547763,
+        "median_grad_norm_sum": 1691.4788657571758
+      },
+      "matched_complete_clusters": {
+        "n": 32,
+        "mean_n_tokens": 42.8125,
+        "min_n_tokens": 9,
+        "median_n_tokens": 39.5,
+        "max_n_tokens": 88,
+        "mean_nll_per_token": 1.569691508535,
+        "median_grad_norm_mean": 28.682248513641124,
+        "geometric_mean_grad_norm_mean": 29.309022885699214,
+        "median_grad_norm_sum": 1118.1449310547864
+      },
+      "truncated_count": 0
+    }
+  },
+  "paired_matched_vs_greedy": {
+    "sample_t1_a": {
+      "n_prompts": 32,
+      "mean_log_grad_norm_ratio": 0.45433770773993454,
+      "log_ratio_95_ci": [
+        0.36262666660372467,
+        0.542222106351977
+      ],
+      "geometric_mean_grad_norm_ratio": 1.5751298412048689,
+      "ratio_95_ci": [
+        1.4370992429643856,
+        1.7198242602426626
+      ],
+      "mean_delta_nll_per_token": 0.945351656575028,
+      "delta_nll_95_ci": [
+        0.7699420596002536,
+        1.1581849490378822
+      ],
+      "fraction_larger_norm_than_greedy": 0.96875
+    },
+    "sample_t1_b": {
+      "n_prompts": 32,
+      "mean_log_grad_norm_ratio": 0.3865295237842622,
+      "log_ratio_95_ci": [
+        0.3076345796014007,
+        0.46899981952116554
+      ],
+      "geometric_mean_grad_norm_ratio": 1.4718638514157267,
+      "ratio_95_ci": [
+        1.3602038584011749,
+        1.5983947166672463
+      ],
+      "mean_delta_nll_per_token": 0.8031837682467945,
+      "delta_nll_95_ci": [
+        0.6138031788574624,
+        1.0007567029234166
+      ],
+      "fraction_larger_norm_than_greedy": 1.0
+    },
+    "sample_t15": {
+      "n_prompts": 32,
+      "mean_log_grad_norm_ratio": 1.0536985826731748,
+      "log_ratio_95_ci": [
+        0.9900529519464827,
+        1.1185253613994843
+      ],
+      "geometric_mean_grad_norm_ratio": 2.868239946732701,
+      "ratio_95_ci": [
+        2.6913769824803997,
+        3.060337981718125
+      ],
+      "mean_delta_nll_per_token": 8.75610652839272,
+      "delta_nll_95_ci": [
+        8.251543403603304,
+        9.222341394434991
+      ],
+      "fraction_larger_norm_than_greedy": 1.0
+    },
+    "astra": {
+      "n_prompts": 32,
+      "mean_log_grad_norm_ratio": 0.6567735240359812,
+      "log_ratio_95_ci": [
+        0.5643524527157524,
+        0.7475810838048141
+      ],
+      "geometric_mean_grad_norm_ratio": 1.9285598333538996,
+      "ratio_95_ci": [
+        1.7583088269258844,
+        2.11188553880771
+      ],
+      "mean_delta_nll_per_token": 1.2537200644799058,
+      "delta_nll_95_ci": [
+        1.0680376105030873,
+        1.454193662014555
+      ],
+      "fraction_larger_norm_than_greedy": 1.0
+    }
+  },
+  "matched_min32_sensitivity": {
+    "n_complete_prompt_clusters": 22,
+    "excluded_short_prefix_prompt_ids": [
+      53,
+      131,
+      366,
+      374,
+      493,
+      623,
+      700,
+      749,
+      930,
+      1092
+    ],
+    "paired_matched_vs_greedy": {
+      "sample_t1_a": {
+        "n_prompts": 22,
+        "mean_log_grad_norm_ratio": 0.3897092029592036,
+        "log_ratio_95_ci": [
+          0.2768913823021552,
+          0.4902976556935829
+        ],
+        "geometric_mean_grad_norm_ratio": 1.4765513546813192,
+        "ratio_95_ci": [
+          1.3190231083723283,
+          1.6328021610162946
+        ],
+        "mean_delta_nll_per_token": 0.9119400055487582,
+        "delta_nll_95_ci": [
+          0.6632529072882962,
+          1.1800914629852148
+        ],
+        "fraction_larger_norm_than_greedy": 0.9545454545454546
+      },
+      "sample_t1_b": {
+        "n_prompts": 22,
+        "mean_log_grad_norm_ratio": 0.3708687653309827,
+        "log_ratio_95_ci": [
+          0.29390807410510306,
+          0.45676975157920874
+        ],
+        "geometric_mean_grad_norm_ratio": 1.4489929028044228,
+        "ratio_95_ci": [
+          1.3416605667748622,
+          1.5789652883377898
+        ],
+        "mean_delta_nll_per_token": 0.7593361150778036,
+        "delta_nll_95_ci": [
+          0.5469011272408556,
+          0.9934450862040024
+        ],
+        "fraction_larger_norm_than_greedy": 1.0
+      },
+      "sample_t15": {
+        "n_prompts": 22,
+        "mean_log_grad_norm_ratio": 1.0155473726066881,
+        "log_ratio_95_ci": [
+          0.9472342111104991,
+          1.089549613309069
+        ],
+        "geometric_mean_grad_norm_ratio": 2.760874210763112,
+        "ratio_95_ci": [
+          2.5785680132688316,
+          2.972934824928917
+        ],
+        "mean_delta_nll_per_token": 8.824998662606333,
+        "delta_nll_95_ci": [
+          8.241887595375848,
+          9.320121095518306
+        ],
+        "fraction_larger_norm_than_greedy": 1.0
+      },
+      "astra": {
+        "n_prompts": 22,
+        "mean_log_grad_norm_ratio": 0.6540805324570591,
+        "log_ratio_95_ci": [
+          0.5459075994854453,
+          0.7653221716446592
+        ],
+        "geometric_mean_grad_norm_ratio": 1.9233732248442779,
+        "ratio_95_ci": [
+          1.7261743466410535,
+          2.14968683130591
+        ],
+        "mean_delta_nll_per_token": 1.1237141513636548,
+        "delta_nll_95_ci": [
+          0.9350334142082716,
+          1.3201507624574036
+        ],
+        "fraction_larger_norm_than_greedy": 1.0
+      }
+    }
+  },
+  "matched_per_condition_spearman_descriptive": {
+    "greedy": {
+      "n_prompts": 32,
+      "spearman": 0.7734604105571846
+    },
+    "sample_t1_a": {
+      "n_prompts": 32,
+      "spearman": 0.6550586510263928
+    },
+    "sample_t1_b": {
+      "n_prompts": 32,
+      "spearman": 0.7771260997067448
+    },
+    "sample_t15": {
+      "n_prompts": 32,
+      "spearman": -0.11290322580645161
+    },
+    "astra": {
+      "n_prompts": 32,
+      "spearman": 0.8317448680351905
+    }
+  },
+  "correlations": {
+    "full": {
+      "n_responses": 160,
+      "n_prompts": 32,
+      "pooled_spearman": {
+        "estimate": 0.5658912457517872,
+        "cluster_bootstrap_95_ci": [
+          0.48172579490402523,
+          0.6455563843592107
+        ]
+      },
+      "within_prompt_centered_pearson": {
+        "estimate": 0.17811333136471336,
+        "cluster_bootstrap_95_ci": [
+          0.0825924405774885,
+          0.29347937466141405
+        ]
+      }
+    },
+    "matched_complete_clusters": {
+      "n_responses": 160,
+      "n_prompts": 32,
+      "pooled_spearman": {
+        "estimate": 0.8561525840853158,
+        "cluster_bootstrap_95_ci": [
+          0.8097552102243344,
+          0.9005862314981694
+        ]
+      },
+      "within_prompt_centered_pearson": {
+        "estimate": 0.8050458021734627,
+        "cluster_bootstrap_95_ci": [
+          0.775920157853612,
+          0.8359044954937885
+        ]
+      }
+    }
+  },
+  "whitespace_sensitivity": {
+    "n_prompts": 32,
+    "description": "Post-hoc control adding one leading space to Astra, retaining original common prefix lengths wherever possible.",
+    "gpu_function_seconds": 9.928857557,
+    "post_hoc": true,
+    "geometric_mean_grad_norm_ratio": 1.9191052087324627,
+    "ratio_95_ci": [
+      1.7512307214842942,
+      2.1100039843750222
+    ],
+    "mean_delta_nll_per_token": 1.223521155296381,
+    "delta_nll_95_ci": [
+      1.0375027091322753,
+      1.42429838241152
+    ],
+    "bootstrap_draws": 2000,
+    "bootstrap_unit": "prompt"
+  }
+}

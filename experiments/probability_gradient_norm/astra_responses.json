@@ -1,0 +1,130 @@
+[
+  {
+    "id": 12,
+    "response": "The tree earns 7 × $1.50 = $10.50 in sales each year. Subtracting its $3 annual upkeep leaves $7.50 per year toward the planting cost. Recovering the $90 planting cost takes $90 ÷ $7.50 = 12 years. At the end of year 12, Carlos has only broken even. He first has positive overall earnings in year 13. </think> <answer>13</answer>"
+  },
+  {
+    "id": 53,
+    "response": "Thursday’s truck repairs bring in 6 × $60 = $360. Its car repairs bring in 4 × $40 = $160, giving a total of $520. Friday’s twelve car repairs bring in 12 × $40 = $480. Thursday has the higher revenue, exceeding Friday by $520 − $480 = $40. </think> <answer>40</answer>"
+  },
+  {
+    "id": 131,
+    "response": "Joseph spent $500 in May. June’s expenditure was $60 less, so he spent $500 − $60 = $440 in June. Adding the two months gives $500 + $440 = $940. </think> <answer>940</answer>"
+  },
+  {
+    "id": 144,
+    "response": "Including the five potential clients gives 3 + 5 = 8 clients. Each home needs two $2 bottles of bleach and one $5 pack of cloths, costing $4 + $5 = $9 per client. Total expenses are 8 × $9 = $72. Profit is income minus expenses, so the weekly profit is $92 − $72 = $20. </think> <answer>20</answer>"
+  },
+  {
+    "id": 176,
+    "response": "There are 240 − 80 = 160 Chinese racers after excluding the Japanese racers. Of these, 60 are boys. The number of girls on the Chinese team is therefore 160 − 60 = 100. </think> <answer>100</answer>"
+  },
+  {
+    "id": 294,
+    "response": "The older son washes 8 oranges. The younger son is half his age, or 4 years old, and washes 4 oranges. Together they wash 8 + 4 = 12 oranges. Starting with 15 oranges leaves 15 − 12 = 3 unwashed. </think> <answer>3</answer>"
+  },
+  {
+    "id": 366,
+    "response": "Jane earned 15 + 18 = 33 points on the first two tests. She needs at least 42 altogether, so she needs 42 − 33 = 9 points on the third test. A score of 9 reaches the required total exactly. </think> <answer>9</answer>"
+  },
+  {
+    "id": 374,
+    "response": "Half of the 30 sheep is 15 sheep. The first half produces 15 × 1 = 15 kilograms of milk, while the second half produces 15 × 2 = 30 kilograms. Mary collects 15 + 30 = 45 kilograms each day. </think> <answer>45</answer>"
+  },
+  {
+    "id": 399,
+    "response": "Beth is 5 years older than Erica, and Alice is 7 years older than Beth. These differences add to 5 + 7 = 12 years. With Erica aged 30, Beth is 35 and Alice is 42, confirming a difference of 42 − 30 = 12 years. </think> <answer>12</answer>"
+  },
+  {
+    "id": 402,
+    "response": "Four batches require 4 × 3 = 12 cups of flour and 4 × 1 = 4 cups of milk. Two-cup flour bags mean Mark needs 12 ÷ 2 = 6 bags. Two-cup milk bottles mean he needs 4 ÷ 2 = 2 bottles. The difference is 6 − 2 = 4 more flour bags. </think> <answer>4</answer>"
+  },
+  {
+    "id": 445,
+    "response": "Thirty minutes is half an hour, so the horse runs 32 × 0.5 = 16 miles. At half a bale per mile, it eats 16 × 0.5 = 8 bales. Those cost 8 × $3 = $24. Michael has six $5 bills, totaling $30, so he receives $30 − $24 = $6 in change. </think> <answer>6</answer>"
+  },
+  {
+    "id": 493,
+    "response": "The buy-one-get-one-free offer makes two packs cost $4 before the coupon. Subtracting the $2 coupon leaves $2, or 200 cents. Two packs contain 2 × 4 = 8 razors. Dividing the total cost among them gives 200 ÷ 8 = 25 cents per razor. </think> <answer>25</answer>"
+  },
+  {
+    "id": 558,
+    "response": "Zack’s locker is half of 24 cubic inches, so its volume is 12 cubic inches. Peter’s locker is one quarter of Zack’s, making its volume 12 ÷ 4 = 3 cubic inches. </think> <answer>3</answer>"
+  },
+  {
+    "id": 623,
+    "response": "Charmaine’s current age is 16 − 12 = 4 years. Four years from now she will be 4 + 4 = 8 years old. </think> <answer>8</answer>"
+  },
+  {
+    "id": 700,
+    "response": "The city launches 15 × 20 = 300 fireworks. Hannah sees 40% of them, or 0.40 × 300 = 120 fireworks. Her own three boxes contain 3 × 5 = 15 fireworks. Combining the visible city fireworks with her backyard fireworks gives 120 + 15 = 135. </think> <answer>135</answer>"
+  },
+  {
+    "id": 701,
+    "response": "The group has Aiden, 12 initial friends, and 7 more friends: 1 + 12 + 7 = 20 people. Each seat holds two drinks and three snacks, so they buy five items per person. At $2 per item, that is $10 per person. Their total spending is 20 × $10 = $200. </think> <answer>200</answer>"
+  },
+  {
+    "id": 734,
+    "response": "The math and science books weigh 2 + 2 = 4 pounds together. The French book weighs 4 pounds and the English book weighs 3 pounds. The history book weighs twice the English book, or 6 pounds. The total is 4 + 4 + 3 + 6 = 17 pounds. </think> <answer>17</answer>"
+  },
+  {
+    "id": 749,
+    "response": "The activity requires twelve groups, and the students are currently separated into six groups. Therefore, 12 − 6 = 6 additional groups are needed. The number of students does not affect this difference between the required and existing group counts. </think> <answer>6</answer>"
+  },
+  {
+    "id": 800,
+    "response": "Half of Pierson’s 278 points is 139 points. Nikita scores 11 more than that, giving 139 + 11 = 150 points. Adding both scores gives 278 + 150 = 428 points. </think> <answer>428</answer>"
+  },
+  {
+    "id": 876,
+    "response": "Amy answers 80% of 10 multiple-choice questions correctly, earning 8 points. She answers 90% of 20 true/false questions correctly, earning 18 points. She answers 60% of 5 long-answer questions correctly, which is 3 questions. These earn 3 × 5 = 15 points. Her total is 8 + 18 + 15 = 41 points. </think> <answer>41</answer>"
+  },
+  {
+    "id": 884,
+    "response": "Argo gives away 40 + 80 + 30 = 150 toys altogether. Subtracting those from his original 200 toys leaves 200 − 150 = 50 toys. </think> <answer>50</answer>"
+  },
+  {
+    "id": 930,
+    "response": "Before buying the balls, Sophie had 31 + 8 + 9 = 48 toys from the blocks, stuffed animals, and rings. The balls increased the total to 62, so their number is 62 − 48 = 14. </think> <answer>14</answer>"
+  },
+  {
+    "id": 1011,
+    "response": "Wanda pumps one quarter of 18,000 gallons on day one, or 4,500 gallons. Ms. B pumps three quarters of that, or 3,375 gallons. On day two, Wanda pumps two thirds of 4,500, or 3,000 gallons, while Ms. B pumps one third of 3,375, or 1,125 gallons. They pump 4,500 + 3,375 + 3,000 + 1,125 = 12,000 gallons altogether. The tank needs another 18,000 − 12,000 = 6,000 gallons. </think> <answer>6000</answer>"
+  },
+  {
+    "id": 1019,
+    "response": "Starting with 100 guests, the hotel loses 24 early checkouts and 15 late checkouts, leaving 100 − 24 − 15 = 61 guests. Afternoon arrivals number twice the late checkouts, or 2 × 15 = 30 guests. Another 7 arrive after dinner. The final total is 61 + 30 + 7 = 98 guests. </think> <answer>98</answer>"
+  },
+  {
+    "id": 1075,
+    "response": "A dozen roses costs $15, and the remaining three cost 3 × $2 = $6. Jenny’s total is $21. Her five $5 bills total $25, leaving $4 in change. Each dollar contains four quarters, so she receives 4 × 4 = 16 quarters. </think> <answer>16</answer>"
+  },
+  {
+    "id": 1092,
+    "response": "After the T-Rex eats half, half the meat remains. The velociraptors eat half of that remainder, leaving one quarter of the original amount. The final 270 kilograms therefore represent one quarter of the original meat. Multiplying by four gives 270 × 4 = 1,080 kilograms. </think> <answer>1080</answer>"
+  },
+  {
+    "id": 1096,
+    "response": "Counting March 1 through April 19 inclusively gives 31 + 19 = 50 days. Billy takes 20% of those days off, or 10 days, leaving 40 working days. He helps 2 people each hour for 3 hours, or 6 people per day. Therefore, he helps 40 × 6 = 240 people. </think> <answer>240</answer>"
+  },
+  {
+    "id": 1108,
+    "response": "The pots and soil cost $19 + $26 = $45 before the discount. The $7 coupon reduces the amount paid to $45 − $7 = $38. </think> <answer>38</answer>"
+  },
+  {
+    "id": 1168,
+    "response": "Let the blue rope’s length be b centimeters. The red rope is 4b centimeters, and the yellow rope is b + 7 centimeters. Their total gives b + 4b + b + 7 = 37. Subtracting 7 yields 6b = 30, so b = 5. The red rope is 4 × 5 = 20 centimeters long. </think> <answer>20</answer>"
+  },
+  {
+    "id": 1221,
+    "response": "Making 80 meatballs at 16 meatballs per pound requires 80 ÷ 16 = 5 pounds of ground beef. Aiden uses two tablespoons of seasoning per pound, so he needs 5 × 2 = 10 tablespoons. </think> <answer>10</answer>"
+  },
+  {
+    "id": 1282,
+    "response": "The guests need 20 × 2 = 40 hot dogs. Subtracting the four John already has leaves 36 to buy. At six hot dogs per pack, he needs 36 ÷ 6 = 6 packs. Each costs $2, so he spends 6 × $2 = $12. </think> <answer>12</answer>"
+  },
+  {
+    "id": 1294,
+    "response": "The first T-shirt costs $8 and the second costs half that, or $4, totaling $12. A 40% discount on the $40 shoes means Jake pays 60% of their original price, or 0.60 × $40 = $24. His total spending is $12 + $24 = $36. </think> <answer>36</answer>"
+  }
+]
