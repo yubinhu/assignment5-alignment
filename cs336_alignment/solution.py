@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import json
 from pathlib import Path
-from typing import Callable, Literal
+from typing import Any, Callable, Literal
 from jaxtyping import Float, Int, Bool
 
 from torch.optim import Optimizer
@@ -195,21 +195,28 @@ def grpo_train_step(
     loss_normalization: Literal["sequence", "constant"] = "sequence",
     normalization_constant: int | None = None,
 ) -> tuple[Tensor, dict[str, Tensor | float]]:
+    # Compute rollout rewards first for pruning
+    raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, rollout_responses, repeated_ground_truths)
+    advantages, cgnr_meta = compute_group_normalized_rewards(
+        raw_rewards, group_size,
+        baseline=baseline,
+        advantage_eps=advantage_eps,
+        advantage_normalizer=advantage_normalizer,
+    )
     
     microbatch_size = len(repeated_prompts) // gradient_accumulation_steps
-
     if microbatch_size % group_size != 0 or len(repeated_prompts) != gradient_accumulation_steps * microbatch_size:
         raise ValueError("Dimension mismatch between group_size, gradient_steps, and inputs")
 
     device = next(model.parameters()).device
     loss = torch.zeros(1, device=device)
-    meta = {}
+    meta: dict[str, Tensor | float] = {**crr_meta, **cgnr_meta}
     response_entropy = 0
     response_tokens = 0
     for i in range(gradient_accumulation_steps):
         inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
         responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
-        groundtruth_microbatch = repeated_ground_truths[i*microbatch_size:i*microbatch_size+microbatch_size]
+        advantages_microbatch = advantages[i*microbatch_size:i*microbatch_size+microbatch_size].to(device)
 
         tokenization_output = tokenize_prompt_and_output(inputs_microbatch, responses_microbatch, tokenizer)
         # Tokenization creates CPU tensors; transfer the whole batch, including
@@ -221,34 +228,25 @@ def grpo_train_step(
         # Entropy logging
         response_entropy += (log_probs_output['token_entropy'] * response_mask).sum().detach()
         response_tokens += response_mask.sum()
-        
-        raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, responses_microbatch, groundtruth_microbatch)
-        raw_rewards = raw_rewards.to(device)
-        advantages, cgnr_meta = compute_group_normalized_rewards(
-            raw_rewards, group_size,
-            baseline=baseline,
-            advantage_eps=advantage_eps,
-            advantage_normalizer=advantage_normalizer,
-        )
+
         per_token_pg_loss, cpgl_meta = compute_policy_gradient_loss(
-            advantages, log_probs_output['log_probs'],
+            advantages_microbatch, log_probs_output['log_probs'],
             importance_reweighting_method=importance_reweighting_method,
             cliprange=cliprange,
             response_mask=response_mask,
         )
-        # Average microbatch statistics, including each microbatch's raw_reward_std.
-        for metrics in (crr_meta, cgnr_meta, cpgl_meta):
-            for key, value in metrics.items():
-                meta[key] = meta.get(key, 0.0) + value / gradient_accumulation_steps
+        # Average microbatch statistics
+        for key, value in cpgl_meta.items():
+            meta[key] = meta.get(key, 0.0) + value / gradient_accumulation_steps
         microbatch_loss = aggregate_loss_across_microbatch(
             per_token_pg_loss, response_mask,
             loss_normalization=loss_normalization,
             normalization_constant=normalization_constant,
         )
         # microbatch adjustement
-        microbatch_loss *= (microbatch_size / len(repeated_prompts))
+        if loss_normalization == "sequence":
+            microbatch_loss *= (microbatch_size / len(repeated_prompts))
         microbatch_loss.backward()
-        
         loss += microbatch_loss.detach() # only for logging
 
     if max_grad_norm:
