@@ -195,7 +195,8 @@ def grpo_train_step(
     loss_normalization: Literal["sequence", "constant"] = "sequence",
     normalization_constant: int | None = None,
 ) -> tuple[Tensor, dict[str, Tensor | float]]:
-    # Compute rollout rewards first for pruning
+    # Calculate advantages
+    device = next(model.parameters()).device
     raw_rewards, crr_meta = compute_rollout_rewards(reward_fn, rollout_responses, repeated_ground_truths)
     advantages, cgnr_meta = compute_group_normalized_rewards(
         raw_rewards, group_size,
@@ -203,17 +204,22 @@ def grpo_train_step(
         advantage_eps=advantage_eps,
         advantage_normalizer=advantage_normalizer,
     )
-    
+    # Pruning
+    prunable = [a==0 for a in advantages]
+    pruned_repeated_prompts = [repeated_prompts[i] for i in range(len(repeated_prompts)) if not prunable[i]]
+    pruned_rollout_responses = [rollout_responses[i] for i in range(len(rollout_responses)) if not prunable[i]]
+    pruned_advantages = torch.tensor([advantages[i] for i in range(len(advantages)) if not prunable[i]], device=device)
+
+    # Microbatches
     microbatch_size = int(math.ceil(len(repeated_prompts) / gradient_accumulation_steps))
-    device = next(model.parameters()).device
     loss = torch.zeros(1, device=device)
     meta: dict[str, Tensor | float] = {**crr_meta, **cgnr_meta}
     response_entropy = 0
     response_tokens = 0
     for i in range(gradient_accumulation_steps):
-        inputs_microbatch = repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
-        responses_microbatch = rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
-        advantages_microbatch = advantages[i*microbatch_size:i*microbatch_size+microbatch_size].to(device)
+        inputs_microbatch = pruned_repeated_prompts[i*microbatch_size:i*microbatch_size+microbatch_size]
+        responses_microbatch = pruned_rollout_responses[i*microbatch_size:i*microbatch_size+microbatch_size]
+        advantages_microbatch = pruned_advantages[i*microbatch_size:i*microbatch_size+microbatch_size]
         if not inputs_microbatch:
             continue
 
