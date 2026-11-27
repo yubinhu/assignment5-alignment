@@ -271,3 +271,6 @@ def grpo_train_step(
 
 # grpo_experiments_variants_on_policy
 # Dr.GRPO is the best performing overall. It has the fastest training early in the process and all GRPO methods are tied in the end. RFT has really high variance. RFT could potentially benefit from hyperparameter tuning and especially a smaller learning rate. GRPO constant has the lowest variance overall. 
+
+# think_about_advantage_normalization
+# Normalizing by group std amplifies losses associated with problems that are almost always right and ones that are almost never right which has smaller standard deviations. Normalizing by group mean amplifies losses associated with harder problems (whose average reward would be smaller). Doing no advantages normalization keeps the objective bias free. For optimizing on tasks that are already successful with the policy 90+% of the times, std normalization may help. For a diverse task set where some tasks are saturated and some are not, mean normalization may help. For cases where the RL environment rewards closely approximate the end goal, no normalization keeps the policy unbiased. 
